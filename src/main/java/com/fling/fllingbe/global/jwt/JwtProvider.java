@@ -26,6 +26,16 @@ public class JwtProvider {
     @Value("${jwt.refresh_secret}")
     private String refreshSecret;
 
+    public void validateToken(String token, boolean isRefreshToken) {
+        try {
+            parseClaims(token, isRefreshToken);
+        } catch (SignatureException | UnsupportedJwtException | IllegalArgumentException | MalformedJwtException e) {
+            throw new InvalidTokenException();
+        } catch (ExpiredJwtException e) {
+            throw new ExpiredTokenException();
+        }
+    }
+
     public Claims parseClaims(String accessToken, boolean isRefreshToken) {
         try {
             JwtParser parser = Jwts.parser().setSigningKey(isRefreshToken ? refreshSecret : accessSecret);
