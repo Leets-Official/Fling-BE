@@ -26,6 +26,17 @@ public class JwtProvider {
     @Value("${jwt.refresh_secret}")
     private String refreshSecret;
 
+    public String generateToken(UUID id, String email, boolean isRefreshToken) {
+        Instant accessDate = LocalDateTime.now().plusHours(4).atZone(ZoneId.systemDefault()).toInstant();
+        Instant refreshDate = LocalDateTime.now().plusDays(30).atZone(ZoneId.systemDefault()).toInstant();
+        return Jwts.builder()
+                .claim("id", id)
+                .setSubject(email)
+                .setExpiration(isRefreshToken ? Date.from(refreshDate) : Date.from(accessDate))
+                .signWith(SignatureAlgorithm.HS256, isRefreshToken ? refreshSecret : accessSecret)
+                .compact();
+    }
+
     public Authentication getAuthentication(String token) {
         Claims claims = parseClaims(token, false);
         Collection<? extends GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(claims.get("role").toString()));
