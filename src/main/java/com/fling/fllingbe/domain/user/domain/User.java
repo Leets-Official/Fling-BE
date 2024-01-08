@@ -30,12 +30,11 @@ public class User extends BaseTimeEntity {
     @Column(name = "nickname")
     private String nickname;
 
-    @CreationTimestamp
+
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "updated_at")
-    @UpdateTimestamp
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     @Column()
