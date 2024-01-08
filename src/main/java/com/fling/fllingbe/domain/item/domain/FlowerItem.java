@@ -5,13 +5,13 @@ import com.fling.fllingbe.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Setter
+
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "\"FlowerItem\"")
+@Table
 public class FlowerItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

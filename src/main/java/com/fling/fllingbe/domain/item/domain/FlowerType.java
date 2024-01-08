@@ -3,7 +3,7 @@ package com.fling.fllingbe.domain.item.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Setter
+
 @Getter
 @Builder
 @NoArgsConstructor
