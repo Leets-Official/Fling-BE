@@ -1,4 +1,4 @@
-package com.fling.fllingbe.domain.item.api;
+package com.fling.fllingbe.domain.item.presentation;
 
 import com.fling.fllingbe.domain.item.application.FlowerItemService;
 import com.fling.fllingbe.domain.item.dto.FlowerItemResponse;
