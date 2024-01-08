@@ -15,7 +15,7 @@ import lombok.*;
 public class FlowerItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "flower_itme_id")
+    @Column(name = "flower_item_id")
     private Long flowerItemId;
 
     @ManyToOne
