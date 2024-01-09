@@ -11,7 +11,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
 public class FlowerItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

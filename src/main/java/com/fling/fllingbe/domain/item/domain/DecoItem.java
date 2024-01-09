@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
 public class DecoItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
