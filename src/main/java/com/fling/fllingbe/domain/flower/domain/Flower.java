@@ -25,11 +25,11 @@ public class Flower extends BaseTimeEntity {
     private Long flowerId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn
     private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn
     private User receiver;
 
     @OneToOne
