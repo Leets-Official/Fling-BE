@@ -9,7 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "\"FlowerType\"")
 public class FlowerType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

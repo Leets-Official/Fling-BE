@@ -13,12 +13,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
 public class CardItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Long CardItemId;
+    private Long cardItemId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
