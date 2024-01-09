@@ -10,7 +10,7 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class CardItemResponse {
-    private String CardType;
+    private String cardType;
     private Long count;
 
     public static CardItemResponse fromEntity(CardItem cardItem) {
