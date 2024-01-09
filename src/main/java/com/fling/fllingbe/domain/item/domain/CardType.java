@@ -1,7 +1,10 @@
 package com.fling.fllingbe.domain.item.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Getter
@@ -9,15 +12,15 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class FlowerType {
+public class CardType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "flower_type_id")
-    private Long flowerTypeId;
+    @Column
+    private Long cardTypeId;
 
-    @Column(name = "flower_name")
-    private String flowerName;
+    @Column
+    private String cardName;
 
-    @Column(name = "price")
+    @Column
     private Long price;
 }
