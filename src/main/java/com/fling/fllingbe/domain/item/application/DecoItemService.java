@@ -27,6 +27,6 @@ public class DecoItemService {
 
         return  decoItems.stream()
                 .map(DecoItemResponse::fromEntity)
-                .collect(Collectors.toList());
+                .toList();
     }
 }
