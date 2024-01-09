@@ -14,7 +14,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 public class DecoItemController {
-    final DecoItemService decoItemService;
+    final private DecoItemService decoItemService;
 
     @GetMapping(value = "/deco-item")
     public ResponseEntity<List<DecoItemResponse>> getDecoItem(@PathVariable UUID id) {
