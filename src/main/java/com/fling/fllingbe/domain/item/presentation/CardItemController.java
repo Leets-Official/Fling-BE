@@ -16,7 +16,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 public class CardItemController {
-    final CardItemService cardItemService;
+    final private CardItemService cardItemService;
 
     @GetMapping(value = "/card-item")
     public ResponseEntity<List<CardItemResponse>> getCardItem(@PathVariable UUID id) {
