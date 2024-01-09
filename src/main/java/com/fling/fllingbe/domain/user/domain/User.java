@@ -5,8 +5,6 @@ import jakarta.annotation.PreDestroy;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,27 +18,20 @@ import java.util.UUID;
 public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "user_id")
+    @Column
     private UUID userId;
 
     @Email
-    @Column(name = "email", nullable = false)
+    @Column(nullable = false)
     private String email;
 
-    @Column(name = "nickname")
+    @Column
     private String nickname;
 
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt = LocalDateTime.now();
-
-    @Column()
+    @Column
     private LocalDateTime deletedAt;
 
-    @PreDestroy()
+    @PreDestroy
     public void preDestroy() {
         this.deletedAt = LocalDateTime.now();
     }
