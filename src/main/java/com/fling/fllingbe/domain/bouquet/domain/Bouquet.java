@@ -20,7 +20,7 @@ public class Bouquet extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Long flowerId;
+    private Long bouquetId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

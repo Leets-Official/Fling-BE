@@ -1,5 +1,6 @@
 package com.fling.fllingbe.domain.flower.domain;
 
+import com.fling.fllingbe.domain.bouquet.domain.Bouquet;
 import com.fling.fllingbe.domain.item.domain.CardType;
 import com.fling.fllingbe.domain.item.domain.FlowerType;
 import com.fling.fllingbe.domain.user.domain.User;
@@ -38,6 +39,10 @@ public class Flower extends BaseTimeEntity {
     @OneToOne
     @JoinColumn(name = "flower_type_id")
     private FlowerType flowerType;
+
+    @ManyToOne
+    @JoinColumn(name="bouquet_id")
+    private Bouquet bouquetId;
 
     @Column
     private String letter;
