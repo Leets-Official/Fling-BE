@@ -22,7 +22,7 @@ public class FlowerItemService {
     private final UserRepository userRepository;
     public List<FlowerItemResponse> getFlowerItem(UUID userId) {
         User user = userRepository.findByUserId(userId).orElseThrow(()->new UserNotFoundException());
-        List<FlowerItem> flowerItems = flowerItemRepository.findByUser(user);
+        List<FlowerItem> flowerItems = flowerItemRepository.findAllByUser(user);
 
         return  flowerItems.stream()
                 .map(FlowerItemResponse::fromEntity)

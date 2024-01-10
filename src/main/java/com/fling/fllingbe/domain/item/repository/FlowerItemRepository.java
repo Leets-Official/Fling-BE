@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FlowerItemRepository extends JpaRepository<FlowerItem, Long> {
-    Optional<FlowerItem> findById(Long flowerItemId);
-    List<FlowerItem> findByUser(User user);
+    Optional<FlowerItem>
+    findById(Long flowerItemId);
+    List<FlowerItem> findAllByUser(User user);
+    Optional<FlowerItem> findByUser(User user);
 }
