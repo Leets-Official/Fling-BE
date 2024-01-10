@@ -1,6 +1,8 @@
 package com.fling.fllingbe.domain.item.application;
 
+import com.fling.fllingbe.domain.flower.dto.FlowerRequest;
 import com.fling.fllingbe.domain.item.domain.FlowerItem;
+import com.fling.fllingbe.domain.item.domain.FlowerType;
 import com.fling.fllingbe.domain.item.dto.FlowerItemResponse;
 import com.fling.fllingbe.domain.item.repository.FlowerItemRepository;
 import com.fling.fllingbe.domain.item.repository.FlowerTypeRepository;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FlowerItemService {
     private final FlowerItemRepository flowerItemRepository;
+    private final FlowerTypeRepository flowerTypeRepository;
     private final UserRepository userRepository;
     public List<FlowerItemResponse> getFlowerItem(UUID userId) {
         User user = userRepository.findByUserId(userId).orElseThrow(()->new UserNotFoundException());
@@ -27,5 +30,25 @@ public class FlowerItemService {
         return  flowerItems.stream()
                 .map(FlowerItemResponse::fromEntity)
                 .collect(Collectors.toList());
+    }
+    public FlowerType minusFlowerItem(FlowerRequest request, User user) {
+        FlowerType flowerType = flowerTypeRepository.findByFlowerName(request.getFlowerType()).get();
+        FlowerItem flowerItem = flowerItemRepository.findByUserAndFlowerType(user, flowerType).get();
+        if (flowerType.getPrice() != 0) {
+            FlowerItem newFlowerItem = new FlowerItem().builder()
+                    .flowerItemId(flowerItem.getFlowerItemId())
+                    .flowerType(flowerType)
+                    .count(flowerItem.getCount() - 1)
+                    .build();
+            flowerItemRepository.save(newFlowerItem);
+        } else {
+            FlowerItem newFlowerItem = new FlowerItem().builder()
+                    .flowerItemId(flowerItem.getFlowerItemId())
+                    .flowerType(flowerType)
+                    .count(flowerItem.getCount())
+                    .build();
+            flowerItemRepository.save(newFlowerItem);
+        }
+        return flowerType;
     }
 }
