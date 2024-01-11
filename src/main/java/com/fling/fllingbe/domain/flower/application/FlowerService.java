@@ -25,12 +25,12 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class FlowerService {
-    final private FlowerRepository flowerRepository;
-    final private UserRepository userRepository;
-    final private CardItemService cardItemService;
-    final private BouquetRepository bouquetRepository;
-    final private FlowerItemService flowerItemService;
-    final private BouquetService bouquetService;
+    private final FlowerRepository flowerRepository;
+    private final UserRepository userRepository;
+    private final CardItemService cardItemService;
+    private final BouquetRepository bouquetRepository;
+    private final FlowerItemService flowerItemService;
+    private final BouquetService bouquetService;
     @Transactional
     public String writeLetter(FlowerRequest request, UUID senderId, UUID ReceiverId) {
         try {
@@ -39,9 +39,10 @@ public class FlowerService {
             FlowerType flowerType = flowerItemService.minusFlowerItem(request, sender);
             CardType cardType = cardItemService.minusCardItem(request, sender);
             List<Flower> flowers = flowerRepository.findAllByReceiver(receiver);
+            System.out.println(flowers.size());
             Bouquet bouquet;
 
-            if (flowers.size() % 10 == 0) {
+            if (flowers.size() % 10 == 0 && flowers.size() != 0) {
                 bouquet = bouquetService.createNewBouquet(receiver);
             } else {
                 List<Bouquet> bouquets = bouquetRepository.findAllByUser(receiver);
