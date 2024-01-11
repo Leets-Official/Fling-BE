@@ -13,8 +13,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FlowerController {
     final private FlowerService flowerService;
-    @PostMapping(value = "/flower/{receiverId}")
-    public ResponseEntity<String> writeLetter(@RequestBody FlowerRequest flowerRequest, @PathVariable("receiverId") UUID receiverId, @RequestHeader UUID senderId) {
+    @PostMapping(value = "/flower/{receiverId}/{senderId}")
+    public ResponseEntity<String> writeLetter(@RequestBody FlowerRequest flowerRequest, @PathVariable("receiverId") UUID receiverId, @PathVariable("senderId") UUID senderId) {
         String response = flowerService.writeLetter(flowerRequest, senderId, receiverId);
         return ResponseEntity.ok().body(response);
     }
