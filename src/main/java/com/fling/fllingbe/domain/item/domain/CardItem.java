@@ -23,7 +23,7 @@ public class CardItem {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "card_type_id")
     private CardType cardType;
 

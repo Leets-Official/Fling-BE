@@ -32,15 +32,15 @@ public class Flower extends BaseTimeEntity {
     @JoinColumn
     private User receiver;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "card_type_id")
     private CardType cardType;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "flower_type_id")
     private FlowerType flowerType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="bouquet_id")
     private Bouquet bouquetId;
 

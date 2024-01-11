@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class BouquetService {
-    final private BouquetRepository bouquetRepository;
+    private final  BouquetRepository bouquetRepository;
 
     public Bouquet createNewBouquet(User user) {
         Bouquet receiverBouquet = bouquetRepository.findByUser(user).get();
