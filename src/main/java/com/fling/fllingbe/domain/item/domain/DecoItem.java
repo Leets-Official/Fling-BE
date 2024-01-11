@@ -23,7 +23,7 @@ public class DecoItem {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "deco_type_id")
     private DecoType decoType;
 
