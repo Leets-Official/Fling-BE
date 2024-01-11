@@ -1,11 +1,14 @@
 package com.fling.fllingbe.domain.item.application;
 
 
+import com.fling.fllingbe.domain.flower.dto.FlowerRequest;
 import com.fling.fllingbe.domain.item.domain.CardItem;
+import com.fling.fllingbe.domain.item.domain.CardType;
 import com.fling.fllingbe.domain.item.domain.FlowerItem;
 import com.fling.fllingbe.domain.item.dto.CardItemResponse;
 import com.fling.fllingbe.domain.item.dto.FlowerItemResponse;
 import com.fling.fllingbe.domain.item.repository.CardItemRepository;
+import com.fling.fllingbe.domain.item.repository.CardTypeRepository;
 import com.fling.fllingbe.domain.user.domain.User;
 import com.fling.fllingbe.domain.user.exception.UserNotFoundException;
 import com.fling.fllingbe.domain.user.repository.UserRepository;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CardItemService {
     final CardItemRepository cardItemRepository;
+    final CardTypeRepository cardTypeRepository;
     final UserRepository userRepository;
 
     public List<CardItemResponse> getCardItem(UUID userId) {
@@ -29,5 +33,25 @@ public class CardItemService {
         return  cardItems.stream()
                 .map(CardItemResponse::fromEntity)
                 .collect(Collectors.toList());
+    }
+    public CardType minusCardItem(FlowerRequest request, User user) {
+        CardType cardType = cardTypeRepository.findByCardName(request.getCardType()).get();
+        CardItem cardItem = cardItemRepository.findByUserAndCardType(user, cardType).get();
+        if (cardType.getPrice() != 0) {
+            CardItem newCardItem = new CardItem().builder()
+                    .cardItemId(cardItem.getCardItemId())
+                    .cardType(cardType)
+                    .count(cardItem.getCount() - 1)
+                    .build();
+            cardItemRepository.save(newCardItem);
+        } else {
+            CardItem newCardItem = new CardItem().builder()
+                    .cardItemId(cardItem.getCardItemId())
+                    .cardType(cardType)
+                    .count(cardItem.getCount())
+                    .build();
+            cardItemRepository.save(newCardItem);
+        }
+        return cardType;
     }
 }
