@@ -3,11 +3,14 @@ package com.fling.fllingbe.global.jwt;
 import com.fling.fllingbe.global.jwt.exception.ExpiredTokenException;
 import com.fling.fllingbe.global.jwt.exception.InvalidTokenException;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -38,9 +41,12 @@ public class JwtProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        Claims claims = parseClaims(token, false);
-        Collection<? extends GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(claims.get("role").toString()));
-        return new UsernamePasswordAuthenticationToken(null, authorities);
+//        Claims claims = parseClaims(token, false);
+//        Collection<? extends GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(claims.get("role").toString()));
+        return new PreAuthenticatedAuthenticationToken(this.getEmail(token),null, null);
+    }
+    public String getEmail(String token) {
+        return Jwts.parserBuilder().setSigningKey(accessSecret).build().parseClaimsJws(token).getBody().getSubject();
     }
 
     public void validateToken(String token, boolean isRefreshToken) {
