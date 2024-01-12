@@ -46,10 +46,4 @@ public class Flower extends BaseTimeEntity {
 
     @Column
     private String letter;
-
-    @Column
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column
-    private LocalDateTime updatedAt = LocalDateTime.now();
 }

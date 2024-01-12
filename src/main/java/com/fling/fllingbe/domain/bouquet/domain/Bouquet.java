@@ -31,10 +31,4 @@ public class Bouquet extends BaseTimeEntity {
 
     @Column
     private String wrapper;
-
-    @Column
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column
-    private LocalDateTime updatedAt = LocalDateTime.now();
 }
