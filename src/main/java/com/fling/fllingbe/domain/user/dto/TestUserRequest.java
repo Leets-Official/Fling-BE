@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class UserRequest {
-    private String accessToken;
+public class TestUserRequest {
+    private String email;
     private String nickname;
 }
 
