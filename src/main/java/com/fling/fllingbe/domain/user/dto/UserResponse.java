@@ -1,5 +1,6 @@
 package com.fling.fllingbe.domain.user.dto;
 
+import com.fling.fllingbe.global.jwt.presentation.JwtResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +15,6 @@ public class UserResponse {
     private UUID userId;
     private String email;
     private String nickname;
-    private String accessToken;
-    private String refreshToken;
+    private JwtResponse token;
+//    private String refreshToken;
 }

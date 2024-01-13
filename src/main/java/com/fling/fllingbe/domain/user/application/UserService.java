@@ -1,11 +1,13 @@
 package com.fling.fllingbe.domain.user.application;
 
 import com.fling.fllingbe.domain.user.domain.User;
+import com.fling.fllingbe.domain.user.dto.RefreshRequest;
 import com.fling.fllingbe.domain.user.dto.TestUserRequest;
 import com.fling.fllingbe.domain.user.dto.UserRequest;
 import com.fling.fllingbe.domain.user.dto.UserResponse;
 import com.fling.fllingbe.domain.user.repository.UserRepository;
 import com.fling.fllingbe.global.jwt.JwtProvider;
+import com.fling.fllingbe.global.jwt.presentation.JwtResponse;
 import com.nimbusds.jose.shaded.gson.JsonElement;
 import com.nimbusds.jose.shaded.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
@@ -33,12 +35,15 @@ public class UserService {
         String email = getEmail(request.getAccessToken());
         if (userRepository.existsByEmail(email)){
             User user = userRepository.findByEmail(email).get();
+            JwtResponse tokenDto = new JwtResponse(
+                    jwtProvider.createAccessToken(user.getEmail()),
+                    jwtProvider.createRefreshToken(user.getEmail())
+            );
             UserResponse signResponse= UserResponse.builder()
                     .userId(user.getUserId())
                     .email(user.getEmail())
                     .nickname(user.getNickname())
-                    .accessToken(jwtProvider.generateToken(user.getUserId(), user.getEmail(), false))
-//                    .refreshToken()
+                    .token(tokenDto)
                     .build();
             return new ResponseEntity<>(signResponse, HttpStatus.OK);
         }
@@ -55,6 +60,11 @@ public class UserService {
                 .build();
         userRepository.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<JwtResponse> tokenRefresh(RefreshRequest request) throws Exception {
+        JwtResponse jwtResponse = jwtProvider.reissueToken(request);
+        return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 
     public String getEmail(String token) throws Exception {
@@ -100,12 +110,15 @@ public class UserService {
     public ResponseEntity<UserResponse> testLogin(TestUserRequest request) throws Exception {
         if (userRepository.existsByEmail(request.getEmail())){
             User user = userRepository.findByEmail(request.getEmail()).get();
+            JwtResponse tokenDto = new JwtResponse(
+                    jwtProvider.createAccessToken(user.getEmail()),
+                    jwtProvider.createRefreshToken(user.getEmail())
+            );
             UserResponse signResponse= UserResponse.builder()
                     .userId(user.getUserId())
                     .email(user.getEmail())
                     .nickname(user.getNickname())
-                    .accessToken(jwtProvider.generateToken(user.getUserId(), user.getEmail(), false))
-//                    .refreshToken()
+                    .token(tokenDto)
                     .build();
             return new ResponseEntity<>(signResponse, HttpStatus.OK);
         }
