@@ -23,8 +23,8 @@ public class FlowerItemService {
     private final FlowerItemRepository flowerItemRepository;
     private final FlowerTypeRepository flowerTypeRepository;
     private final UserRepository userRepository;
-    public List<FlowerItemResponse> getFlowerItem(UUID userId) {
-        User user = userRepository.findByUserId(userId).orElseThrow(()->new UserNotFoundException());
+    public List<FlowerItemResponse> getFlowerItem(String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(()->new UserNotFoundException());
         List<FlowerItem> flowerItems = flowerItemRepository.findAllByUser(user);
 
         return  flowerItems.stream()

@@ -21,8 +21,8 @@ public class DecoItemService {
     private final DecoItemRepository decoItemRepository;
     private final UserRepository userRepository;
 
-    public List<DecoItemResponse> getDecoItem(UUID userId) {
-        User user = userRepository.findByUserId(userId).orElseThrow(()->new UserNotFoundException());
+    public List<DecoItemResponse> getDecoItem(String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(()->new UserNotFoundException());
         List<DecoItem> decoItems = decoItemRepository.findByUser(user);
 
         return  decoItems.stream()
