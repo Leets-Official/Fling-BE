@@ -2,9 +2,8 @@ package com.fling.fllingbe.domain.user.presentation;
 
 
 import com.fling.fllingbe.domain.user.application.UserService;
-import com.fling.fllingbe.domain.user.dto.TestUserRequest;
-import com.fling.fllingbe.domain.user.dto.UserRequest;
-import com.fling.fllingbe.domain.user.dto.UserResponse;
+import com.fling.fllingbe.domain.user.dto.*;
+import com.fling.fllingbe.global.jwt.presentation.JwtResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +22,11 @@ public class UserController {
     @PostMapping(value = "/register")
     public ResponseEntity<Void> register(@RequestBody UserRequest request) throws Exception {
         return userService.register(request);
+    }
+
+    @GetMapping(value = "/refresh")
+    public ResponseEntity<JwtResponse> refresh(@RequestBody RefreshRequest request) throws Exception {
+        return userService.tokenRefresh(request);
     }
 
     @PostMapping(value = "/test-login")
