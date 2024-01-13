@@ -19,9 +19,9 @@ public class BouquetController {
         String response = bouquetService.createFirstBouquet(id, request);
         return ResponseEntity.ok().body("꽃다발 생성에 성공하였습니다.");
     }
-    @GetMapping("/bouquet/{id}")
-    public ResponseEntity<GetBouquetResponse> getBouquet(@PathVariable("id") UUID id) {
-        GetBouquetResponse getBouquetResponse = bouquetService.getBouquetResponse(id);
+    @GetMapping("/bouquet")
+    public ResponseEntity<GetBouquetResponse> getBouquet(@RequestHeader("Authorization") String token) {
+        GetBouquetResponse getBouquetResponse = bouquetService.getBouquetResponse(token);
         return ResponseEntity.ok().body(getBouquetResponse);
     }
 
