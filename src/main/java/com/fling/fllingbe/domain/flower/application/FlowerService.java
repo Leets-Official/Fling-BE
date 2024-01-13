@@ -32,10 +32,10 @@ public class FlowerService {
     private final FlowerItemService flowerItemService;
     private final BouquetService bouquetService;
     @Transactional
-    public String writeLetter(FlowerRequest request, UUID senderId, UUID ReceiverId) {
+    public String writeLetter(FlowerRequest request, String senderEmail, UUID ReceiverId) {
         try {
-            User sender = userRepository.findByUserId(senderId).orElseThrow(()->new UserNotFoundException());
-            User receiver = userRepository.findByUserId(ReceiverId).get();
+            User sender = userRepository.findByEmail(senderEmail).orElseThrow(()->new UserNotFoundException());
+            User receiver = userRepository.findByUserId(ReceiverId).orElseThrow(()->new UserNotFoundException());
             FlowerType flowerType = flowerItemService.minusFlowerItem(request, sender);
             CardType cardType = cardItemService.minusCardItem(request, sender);
             List<Flower> flowers = flowerRepository.findAllByReceiver(receiver);
