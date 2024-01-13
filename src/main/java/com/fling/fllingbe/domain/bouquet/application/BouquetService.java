@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -61,7 +60,7 @@ public class BouquetService {
             List<FlowerInfo> flowerInfoList = flowers.stream()
                     .map(FlowerInfo::fromEntity)
                     .toList();
-            BouquetInfo bouquetInfo = new BouquetInfo(bouquet.getBouquetId(),flowerInfoList);
+            BouquetInfo bouquetInfo = new BouquetInfo(bouquet.getBouquetId(), flowerInfoList);
             bouquetInfos.add(bouquetInfo);
         }
         GetBouquetResponse getBouquetResponse = new GetBouquetResponse(bouquetDesign,bouquetInfos);
