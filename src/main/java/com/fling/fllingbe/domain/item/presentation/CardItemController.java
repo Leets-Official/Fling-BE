@@ -20,8 +20,8 @@ public class CardItemController {
     final private CardItemService cardItemService;
 
     @GetMapping(value = "/card-item")
-    public ResponseEntity<List<CardItemResponse>> getCardItem(@PathVariable UUID id) {
-        List<CardItemResponse> cardItems = cardItemService.getCardItem(id);
+    public ResponseEntity<List<CardItemResponse>> getCardItem(Authentication authentication) {
+        List<CardItemResponse> cardItems = cardItemService.getCardItem(authentication.getName());
         return ResponseEntity.ok().body(cardItems);
     }
 }
