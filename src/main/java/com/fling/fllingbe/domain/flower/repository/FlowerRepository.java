@@ -13,4 +13,5 @@ public interface FlowerRepository extends JpaRepository<Flower,Long> {
     Optional<Flower> findByReceiver(User receiver);
     List<Flower> findAllByReceiver(User receiver);
     List<Flower> findAllByBouquetId(Bouquet bouquet);
+    List<Flower> findAllBySender(User sender);
 }

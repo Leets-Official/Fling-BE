@@ -5,6 +5,8 @@ import com.fling.fllingbe.domain.bouquet.application.BouquetService;
 import com.fling.fllingbe.domain.bouquet.domain.Bouquet;
 import com.fling.fllingbe.domain.bouquet.repository.BouquetRepository;
 import com.fling.fllingbe.domain.flower.domain.Flower;
+import com.fling.fllingbe.domain.flower.dto.ReceivedFlower;
+import com.fling.fllingbe.domain.flower.dto.SentFlower;
 import com.fling.fllingbe.domain.flower.repository.FlowerRepository;
 import com.fling.fllingbe.domain.flower.dto.FlowerRequest;
 import com.fling.fllingbe.domain.item.application.CardItemService;
@@ -31,10 +33,11 @@ public class FlowerService {
     private final BouquetRepository bouquetRepository;
     private final FlowerItemService flowerItemService;
     private final BouquetService bouquetService;
+
     @Transactional
     public String writeLetter(FlowerRequest request, UUID senderId, UUID ReceiverId) {
         try {
-            User sender = userRepository.findByUserId(senderId).orElseThrow(()->new UserNotFoundException());
+            User sender = userRepository.findByUserId(senderId).orElseThrow(() -> new UserNotFoundException());
             User receiver = userRepository.findByUserId(ReceiverId).get();
             FlowerType flowerType = flowerItemService.minusFlowerItem(request, sender);
             CardType cardType = cardItemService.minusCardItem(request, sender);
@@ -63,6 +66,20 @@ public class FlowerService {
         } catch (ServiceException e) {
             throw e;
         }
+    }
+
+    public List<SentFlower> getSendedFlower(String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(()->new UserNotFoundException());
+        List<Flower> flowerList = flowerRepository.findAllBySender(user);
+        List<SentFlower> sentFlowerList = flowerList.stream().map(SentFlower::fromEntity).toList();
+        return sentFlowerList;
+    }
+
+    public List<ReceivedFlower> getReceivedFlower(String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(()->new UserNotFoundException());
+        List<Flower> flowerList = flowerRepository.findAllByReceiver(user);
+        List<ReceivedFlower> receivedFlowerList = flowerList.stream().map(ReceivedFlower::fromEntity).toList();
+        return receivedFlowerList;
     }
 }
 
