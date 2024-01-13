@@ -37,6 +37,7 @@ public class FlowerItemService {
         if (flowerType.getPrice() != 0) {
             FlowerItem newFlowerItem = new FlowerItem().builder()
                     .flowerItemId(flowerItem.getFlowerItemId())
+                    .user(user)
                     .flowerType(flowerType)
                     .count(flowerItem.getCount() - 1)
                     .build();
@@ -44,6 +45,7 @@ public class FlowerItemService {
         } else {
             FlowerItem newFlowerItem = new FlowerItem().builder()
                     .flowerItemId(flowerItem.getFlowerItemId())
+                    .user(user)
                     .flowerType(flowerType)
                     .count(flowerItem.getCount())
                     .build();

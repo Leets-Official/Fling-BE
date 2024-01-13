@@ -3,12 +3,11 @@ package com.fling.fllingbe.domain.bouquet.presentation;
 
 import com.fling.fllingbe.domain.bouquet.application.BouquetService;
 import com.fling.fllingbe.domain.bouquet.dto.CreateBouquetRequest;
+import com.fling.fllingbe.domain.bouquet.dto.GetBouquetResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -21,4 +20,10 @@ public class BouquetController {
         String response = bouquetService.createFirstBouquet(id, request);
         return ResponseEntity.ok().body("꽃다발 생성에 성공하였습니다.");
     }
+    @GetMapping("/bouquet")
+    public ResponseEntity<GetBouquetResponse> getBouquet(Authentication authentication) {
+        GetBouquetResponse getBouquetResponse = bouquetService.getBouquetResponse(authentication);
+        return ResponseEntity.ok().body(getBouquetResponse);
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.fling.fllingbe.domain.bouquet.domain;
 
+import com.fling.fllingbe.domain.item.domain.DecoItem;
+import com.fling.fllingbe.domain.item.domain.DecoType;
 import com.fling.fllingbe.domain.user.domain.User;
 import com.fling.fllingbe.global.shared.domain.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -26,15 +28,21 @@ public class Bouquet extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn
+    private DecoType decoItem1;
+
+    @ManyToOne
+    @JoinColumn
+    private DecoType decoItem2;
+
+    @ManyToOne
+    @JoinColumn
+    private DecoType decoItem3;
+
     @Column
     private String ribbon;
 
     @Column
     private String wrapper;
-
-    @Column
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column
-    private LocalDateTime updatedAt = LocalDateTime.now();
 }

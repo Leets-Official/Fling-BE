@@ -40,6 +40,7 @@ public class CardItemService {
         if (cardType.getPrice() != 0) {
             CardItem newCardItem = new CardItem().builder()
                     .cardItemId(cardItem.getCardItemId())
+                    .user(user)
                     .cardType(cardType)
                     .count(cardItem.getCount() - 1)
                     .build();
@@ -47,6 +48,7 @@ public class CardItemService {
         } else {
             CardItem newCardItem = new CardItem().builder()
                     .cardItemId(cardItem.getCardItemId())
+                    .user(user)
                     .cardType(cardType)
                     .count(cardItem.getCount())
                     .build();
