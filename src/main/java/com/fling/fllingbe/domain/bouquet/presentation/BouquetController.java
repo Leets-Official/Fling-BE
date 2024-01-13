@@ -6,6 +6,7 @@ import com.fling.fllingbe.domain.bouquet.dto.CreateBouquetRequest;
 import com.fling.fllingbe.domain.bouquet.dto.GetBouquetResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -20,8 +21,8 @@ public class BouquetController {
         return ResponseEntity.ok().body("꽃다발 생성에 성공하였습니다.");
     }
     @GetMapping("/bouquet")
-    public ResponseEntity<GetBouquetResponse> getBouquet(@RequestHeader("Authorization") String token) {
-        GetBouquetResponse getBouquetResponse = bouquetService.getBouquetResponse(token);
+    public ResponseEntity<GetBouquetResponse> getBouquet(Authentication authentication) {
+        GetBouquetResponse getBouquetResponse = bouquetService.getBouquetResponse(authentication);
         return ResponseEntity.ok().body(getBouquetResponse);
     }
 

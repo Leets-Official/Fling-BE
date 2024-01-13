@@ -15,6 +15,7 @@ import com.fling.fllingbe.domain.user.exception.UserNotFoundException;
 import com.fling.fllingbe.domain.user.repository.UserRepository;
 import com.fling.fllingbe.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -50,8 +51,8 @@ public class BouquetService {
         bouquetRepository.save(newBouquet);
         return "꽃다발 생성에 성공하였습니다.";
     }
-    public GetBouquetResponse getBouquetResponse(String token) {
-        User user = userRepository.findByEmail(jwtProvider.getEmail(token)).orElseThrow(()-> new UserNotFoundException());
+    public GetBouquetResponse getBouquetResponse(Authentication authentication) {
+        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(()-> new UserNotFoundException());
         List<Bouquet> bouquets = bouquetRepository.findAllByUser(user);
         List<BouquetInfo> bouquetInfos = new ArrayList<>();
         BouquetDesign bouquetDesign = getBouquetDesign(bouquets.get(0));
