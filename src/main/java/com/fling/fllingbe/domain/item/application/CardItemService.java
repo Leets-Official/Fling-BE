@@ -26,8 +26,8 @@ public class CardItemService {
     final CardTypeRepository cardTypeRepository;
     final UserRepository userRepository;
 
-    public List<CardItemResponse> getCardItem(UUID userId) {
-        User user = userRepository.findByUserId(userId).orElseThrow(()->new UserNotFoundException());
+    public List<CardItemResponse> getCardItem(String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(()->new UserNotFoundException());
         List<CardItem> cardItems = cardItemRepository.findByUser(user);
 
         return  cardItems.stream()
