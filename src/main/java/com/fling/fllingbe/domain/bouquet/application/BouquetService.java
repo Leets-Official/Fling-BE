@@ -54,11 +54,7 @@ public class BouquetService {
         User user = userRepository.findByEmail(jwtProvider.getEmail(token)).orElseThrow(()-> new UserNotFoundException());
         List<Bouquet> bouquets = bouquetRepository.findAllByUser(user);
         List<BouquetInfo> bouquetInfos = new ArrayList<>();
-        BouquetDesign bouquetDesign = new BouquetDesign(bouquets.get(0).getWrapper()
-                ,bouquets.get(0).getRibbon()
-                ,bouquets.get(0).getDecoItem1().getDecoTypeName()
-                ,bouquets.get(0).getDecoItem2().getDecoTypeName()
-                ,bouquets.get(0).getDecoItem3().getDecoTypeName());
+        BouquetDesign bouquetDesign = getBouquetDesign(bouquets.get(0));
         for(Bouquet bouquet : bouquets){
             List<Flower> flowers = flowerRepository.findAllByBouquetId(bouquet);
             List<FlowerInfo> flowerInfoList = flowers.stream()
@@ -66,13 +62,16 @@ public class BouquetService {
                     .toList();
             BouquetInfo bouquetInfo = new BouquetInfo(bouquet.getBouquetId(),flowerInfoList);
             bouquetInfos.add(bouquetInfo);
-            bouquetDesign = new BouquetDesign(bouquet.getWrapper()
-                    ,bouquet.getRibbon()
-                    ,bouquet.getDecoItem1().getDecoTypeName()
-                    ,bouquet.getDecoItem2().getDecoTypeName()
-                    ,bouquet.getDecoItem3().getDecoTypeName());
         }
         GetBouquetResponse getBouquetResponse = new GetBouquetResponse(bouquetDesign,bouquetInfos);
         return getBouquetResponse;
+    }
+    public BouquetDesign getBouquetDesign(Bouquet bouquet) {
+        BouquetDesign bouquetDesign = new BouquetDesign(bouquet.getWrapper()
+                ,bouquet.getRibbon()
+                ,bouquet.getDecoItem1().getDecoTypeName()
+                ,bouquet.getDecoItem2().getDecoTypeName()
+                ,bouquet.getDecoItem3().getDecoTypeName());
+        return bouquetDesign;
     }
 }
