@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -27,10 +28,11 @@ import java.net.URL;
 @RequiredArgsConstructor
 public class UserService {
 
+    @Value("${is-using-refresh-token}")
+    private boolean isUsingRefreshToken;
+
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
-
-
     public ResponseEntity<UserResponse> login(UserRequest request) throws Exception {
         String email = getEmail(request.getAccessToken());
         if (userRepository.existsByEmail(email)){
@@ -63,8 +65,11 @@ public class UserService {
     }
 
     public ResponseEntity<JwtResponse> tokenRefresh(RefreshRequest request) throws Exception {
-        JwtResponse jwtResponse = jwtProvider.reissueToken(request);
-        return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
+        if(isUsingRefreshToken){
+            JwtResponse jwtResponse = jwtProvider.reissueToken(request);
+            return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
+        }
+        return null;
     }
 
     public String getEmail(String token) throws Exception {
@@ -112,7 +117,11 @@ public class UserService {
             User user = userRepository.findByEmail(request.getEmail()).get();
             JwtResponse tokenDto = new JwtResponse(
                     jwtProvider.createAccessToken(user.getEmail()),
-                    jwtProvider.createRefreshToken(user.getEmail())
+                    isUsingRefreshToken
+                            ?
+                            jwtProvider.createRefreshToken(user.getEmail())
+                            :
+                            "No Refresh Token Provided"
             );
             UserResponse signResponse= UserResponse.builder()
                     .userId(user.getUserId())

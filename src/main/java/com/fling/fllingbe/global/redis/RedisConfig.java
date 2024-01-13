@@ -1,6 +1,7 @@
 package com.fling.fllingbe.global.redis;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -24,6 +25,7 @@ public class RedisConfig {
 
     @Bean
     public RedisTemplate<String, String> redisTemplate() {
+
         // redisTemplate를 받아와서 set, get, delete를 사용
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
         // setKeySerializer, setValueSerializer 설정

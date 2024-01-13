@@ -68,6 +68,7 @@ public class JwtProvider {
         Authentication authentication = this.getAuthentication(refreshRequest.getRefreshToken());
         if(!refreshRequest.getEmail().equals(authentication.getName()))
             throw new InvalidTokenException();
+
         String redisRefreshToken = redisTemplate.opsForValue().get(authentication.getName());
 
         if(!redisRefreshToken.equals(refreshRequest.getRefreshToken()))
