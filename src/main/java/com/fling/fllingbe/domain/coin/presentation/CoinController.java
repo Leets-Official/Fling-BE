@@ -23,6 +23,6 @@ public class CoinController {
     @PostMapping()
     public ResponseEntity<Map<String, String>> updateCoin(Authentication authentication, @RequestBody CoinRequest coinRequest) {
         coinService.updateCoin(authentication.getName(), coinRequest.getCoin());
-        return new ResponseEntity<>(Map.of("message", "코인 업데이트가 성공했습x니다."), HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message", "코인 업데이트가 성공했습니다."), HttpStatus.OK);
     }
 }
