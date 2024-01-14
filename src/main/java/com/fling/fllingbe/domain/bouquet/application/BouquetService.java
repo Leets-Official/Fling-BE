@@ -35,7 +35,6 @@ public class BouquetService {
     private final  BouquetRepository bouquetRepository;
     private final UserRepository userRepository;
     private final FlowerRepository flowerRepository;
-    private final JwtProvider jwtProvider;
     private final RibbonRepository ribbonRepository;
     private final WrapperTypeRepository wrapperTypeRepository;
     private final DecoTypeRepository decoTypeRepository;

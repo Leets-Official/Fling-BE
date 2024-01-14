@@ -21,7 +21,8 @@ public class ItemsService {
     public GetItemsResponse getItems() {
         List<FlowerType> flowerTypeList = flowerTypeRepository.findAll();
         List<FlowerItemInfo> flowerItemInfoList = flowerTypeList.stream().map(FlowerItemInfo::fromEntity).toList();
-        List<DecoType> decoTypeList = decoTypeRepository.findAllByDecoTypeIdIsNot(1L);
+        Long ignoreDecoTypeId = decoTypeRepository.findByDecoTypeName("undefined").get().getDecoTypeId();
+        List<DecoType> decoTypeList = decoTypeRepository.findAllByDecoTypeIdIsNot(ignoreDecoTypeId);
         List<DecoItemInfo> decoItemInfoList = decoTypeList.stream().map(DecoItemInfo::fromEntity).toList();
         List<CardType> cardTypeList = cardTypeRepository.findAll();
         List<CardItemInfo> cardItemInfoList = cardTypeList.stream().map(CardItemInfo::fromEntity).toList();
