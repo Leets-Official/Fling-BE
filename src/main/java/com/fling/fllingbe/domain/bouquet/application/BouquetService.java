@@ -42,11 +42,14 @@ public class BouquetService {
     private final DecoItemRepository decoItemRepository;
     private final DecoItemService decoItemService;
     public Bouquet createNewBouquet(User user) {
-        Bouquet receiverBouquet = bouquetRepository.findByUser(user).get();
+        List<Bouquet> receiverBouquets = bouquetRepository.findAllByUser(user);
         Bouquet newBouquet = new Bouquet().builder()
                 .user(user)
-                .ribbonType(receiverBouquet.getRibbonType())
-                .wrapperType(receiverBouquet.getWrapperType())
+                .decoItem1(receiverBouquets.get(0).getDecoItem1())
+                .decoItem2(receiverBouquets.get(0).getDecoItem2())
+                .decoItem3(receiverBouquets.get(0).getDecoItem3())
+                .ribbonType(receiverBouquets.get(0).getRibbonType())
+                .wrapperType(receiverBouquets.get(0).getWrapperType())
                 .build();
         bouquetRepository.save(newBouquet);
         return newBouquet;
@@ -58,6 +61,9 @@ public class BouquetService {
         WrapperType wrapperType = wrapperTypeRepository.findByWrapperName(request.getWrapper()).get();
         Bouquet newBouquet = new Bouquet().builder()
                 .user(user)
+                .decoItem1(decoTypeRepository.findByDecoTypeName("아이템 1").get())
+                .decoItem2(decoTypeRepository.findByDecoTypeName("아이템 2").get())
+                .decoItem3(decoTypeRepository.findByDecoTypeName("아이템 3").get())
                 .ribbonType(ribbonType)
                 .wrapperType(wrapperType)
                 .build();
