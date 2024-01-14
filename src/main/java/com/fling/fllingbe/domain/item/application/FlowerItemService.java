@@ -4,6 +4,8 @@ import com.fling.fllingbe.domain.flower.dto.FlowerRequest;
 import com.fling.fllingbe.domain.item.domain.FlowerItem;
 import com.fling.fllingbe.domain.item.domain.FlowerType;
 import com.fling.fllingbe.domain.item.dto.FlowerItemResponse;
+import com.fling.fllingbe.domain.item.dto.GetItemRequest;
+import com.fling.fllingbe.domain.item.dto.GetItemResponse;
 import com.fling.fllingbe.domain.item.repository.FlowerItemRepository;
 import com.fling.fllingbe.domain.item.repository.FlowerTypeRepository;
 import com.fling.fllingbe.domain.user.domain.User;
@@ -64,5 +66,14 @@ public class FlowerItemService {
                     .build();
             flowerItemRepository.save(flowerItem);
         }
+    }
+
+    public GetItemResponse getFlowerItemInfo(GetItemRequest request) {
+        FlowerType flowerType = flowerTypeRepository.findById(request.getId()).get();
+        GetItemResponse getItemResponse = GetItemResponse.builder()
+                .itemName(flowerType.getFlowerName())
+                .description(flowerType.getDescription())
+                .build();
+        return getItemResponse;
     }
 }
