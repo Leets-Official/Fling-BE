@@ -7,6 +7,8 @@ import com.fling.fllingbe.domain.item.domain.CardType;
 import com.fling.fllingbe.domain.item.domain.FlowerItem;
 import com.fling.fllingbe.domain.item.dto.CardItemResponse;
 import com.fling.fllingbe.domain.item.dto.FlowerItemResponse;
+import com.fling.fllingbe.domain.item.dto.GetItemRequest;
+import com.fling.fllingbe.domain.item.dto.GetItemResponse;
 import com.fling.fllingbe.domain.item.repository.CardItemRepository;
 import com.fling.fllingbe.domain.item.repository.CardTypeRepository;
 import com.fling.fllingbe.domain.user.domain.User;
@@ -67,5 +69,14 @@ CardItemService {
                     .build();
             cardItemRepository.save(cardItem);
         }
+    }
+
+    public GetItemResponse getCardItemInfo(GetItemRequest getItemRequest) {
+        CardType cardType = cardTypeRepository.findById(getItemRequest.getId()).get();
+        GetItemResponse getItemResponse = GetItemResponse.builder()
+                .itemName(cardType.getCardName())
+                .description(cardType.getDescription())
+                .build();
+        return getItemResponse;
     }
 }
