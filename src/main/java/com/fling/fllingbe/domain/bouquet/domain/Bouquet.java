@@ -2,6 +2,8 @@ package com.fling.fllingbe.domain.bouquet.domain;
 
 import com.fling.fllingbe.domain.item.domain.DecoItem;
 import com.fling.fllingbe.domain.item.domain.DecoType;
+import com.fling.fllingbe.domain.item.domain.RibbonType;
+import com.fling.fllingbe.domain.item.domain.WrapperType;
 import com.fling.fllingbe.domain.user.domain.User;
 import com.fling.fllingbe.global.shared.domain.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -10,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.sql.Wrapper;
 import java.time.LocalDateTime;
 
 
@@ -40,9 +43,11 @@ public class Bouquet extends BaseTimeEntity {
     @JoinColumn
     private DecoType decoItem3;
 
-    @Column
-    private String ribbon;
+    @ManyToOne
+    @JoinColumn
+    private RibbonType ribbonType;
 
-    @Column
-    private String wrapper;
+    @ManyToOne
+    @JoinColumn
+    private WrapperType wrapperType;
 }
