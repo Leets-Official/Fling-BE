@@ -55,10 +55,8 @@ public class BouquetService {
         return newBouquet;
     }
 
-    public String createFirstBouquet(UUID id , CreateBouquetRequest request) {
-        User user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException());
-        RibbonType ribbonType = ribbonRepository.findByRibbonName(request.getRibbon()).get();
-        WrapperType wrapperType = wrapperTypeRepository.findByWrapperName(request.getWrapper()).get();
+    public String createFirstBouquet(Authentication authentication , CreateBouquetRequest request) {
+        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(()-> new UserNotFoundException());
         Bouquet newBouquet = new Bouquet().builder()
                 .user(user)
                 .decoItem1(decoTypeRepository.findByDecoTypeName("아이템 1").get())
