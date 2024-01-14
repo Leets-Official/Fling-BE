@@ -21,12 +21,9 @@ public class CoinService {
 
     @Transactional
     public void updateCoin(String userEmail, Integer newCoinValue) {
-        System.out.println(userEmail);
-        System.out.println(newCoinValue);
         User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException());
         Coin coin = coinRepository.findByUser(user).orElseThrow(CoinNotFoundException::new);
         coin.setCoin(newCoinValue + coin.getCoin());
-        System.out.println(coin.getCoin());
         coinRepository.save(coin);
     }
 }
