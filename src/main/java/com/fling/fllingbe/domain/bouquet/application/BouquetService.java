@@ -62,8 +62,8 @@ public class BouquetService {
                 .decoItem1(decoTypeRepository.findByDecoTypeName("아이템 1").get())
                 .decoItem2(decoTypeRepository.findByDecoTypeName("아이템 2").get())
                 .decoItem3(decoTypeRepository.findByDecoTypeName("아이템 3").get())
-                .ribbonType(ribbonType)
-                .wrapperType(wrapperType)
+                .ribbonType(ribbonRepository.findByRibbonName(request.getRibbon()).get())
+                .wrapperType(wrapperTypeRepository.findByWrapperName(request.getWrapper()).get())
                 .build();
         bouquetRepository.save(newBouquet);
         return "꽃다발 생성에 성공하였습니다.";
