@@ -40,8 +40,8 @@ public class BouquetService {
         return newBouquet;
     }
 
-    public String createFirstBouquet(UUID id , CreateBouquetRequest request) {
-        User user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException());
+    public String createFirstBouquet(Authentication authentication , CreateBouquetRequest request) {
+        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(()-> new UserNotFoundException());
         Bouquet newBouquet = new Bouquet().builder()
                 .user(user)
                 .ribbon(request.getRibbon())

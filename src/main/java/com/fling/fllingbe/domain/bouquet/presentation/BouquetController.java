@@ -15,9 +15,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BouquetController {
     private final BouquetService bouquetService;
-    @PostMapping("/bouquet/{id}")
-    public ResponseEntity<String> createBouquet(@PathVariable("id")UUID id, @RequestBody CreateBouquetRequest request) {
-        String response = bouquetService.createFirstBouquet(id, request);
+    @PostMapping("/bouquet")
+    public ResponseEntity<String> createBouquet(Authentication authentication, @RequestBody CreateBouquetRequest request) {
+        String response = bouquetService.createFirstBouquet(authentication, request);
         return ResponseEntity.ok().body("꽃다발 생성에 성공하였습니다.");
     }
     @GetMapping("/bouquet")
