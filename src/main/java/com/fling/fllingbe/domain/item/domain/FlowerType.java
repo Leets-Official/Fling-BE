@@ -18,6 +18,9 @@ public class FlowerType {
     @Column(name = "flower_name")
     private String flowerName;
 
+    @Column
+    private String description;
+
     @Column(name = "price")
     private Long price;
 }

@@ -25,5 +25,8 @@ public class DecoType {
     private Long position;
 
     @Column
+    private String description;
+
+    @Column
     private Long price;
 }
