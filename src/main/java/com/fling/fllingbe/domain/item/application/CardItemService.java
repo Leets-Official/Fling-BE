@@ -21,7 +21,8 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CardItemService {
+public class
+CardItemService {
     final CardItemRepository cardItemRepository;
     final CardTypeRepository cardTypeRepository;
     final UserRepository userRepository;

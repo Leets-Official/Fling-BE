@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface DecoTypeRepository extends JpaRepository<DecoType, Long> {
     Optional<DecoType> findById(Long decoTypeId);
+    Optional<DecoType> findByDecoTypeName(String decoTypeName);
 }
