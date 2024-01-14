@@ -57,4 +57,15 @@ CardItemService {
         }
         return cardType;
     }
+    public void createDefaultCardItem(User user) {
+        List<CardType> cardTypeList = cardTypeRepository.findAll();
+        for (CardType cardType : cardTypeList) {
+            CardItem cardItem = CardItem.builder()
+                    .cardType(cardType)
+                    .user(user)
+                    .count(0L)
+                    .build();
+            cardItemRepository.save(cardItem);
+        }
+    }
 }

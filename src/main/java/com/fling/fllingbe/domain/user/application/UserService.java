@@ -2,6 +2,7 @@ package com.fling.fllingbe.domain.user.application;
 
 import com.fling.fllingbe.domain.coin.domain.Coin;
 import com.fling.fllingbe.domain.coin.repository.CoinRepository;
+import com.fling.fllingbe.domain.item.application.CardItemService;
 import com.fling.fllingbe.domain.item.application.DecoItemService;
 import com.fling.fllingbe.domain.item.application.FlowerItemService;
 import com.fling.fllingbe.domain.item.domain.DecoItem;
@@ -40,6 +41,7 @@ public class UserService {
     private final CoinRepository coinRepository;
     private final FlowerItemService flowerItemService;
     private final DecoItemService decoItemService;
+    private final CardItemService cardItemService;
     private final JwtProvider jwtProvider;
 
     public ResponseEntity<UserResponse> login(UserRequest request) throws Exception {
@@ -163,6 +165,7 @@ public class UserService {
         coinRepository.save(coin);
         flowerItemService.createDefaultFlowerItem(user);
         decoItemService.createDefaultDecoItem(user);
+        cardItemService.createDefaultCardItem(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
