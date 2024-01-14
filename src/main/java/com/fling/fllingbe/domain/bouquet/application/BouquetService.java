@@ -10,6 +10,10 @@ import com.fling.fllingbe.domain.bouquet.repository.BouquetRepository;
 import com.fling.fllingbe.domain.flower.domain.Flower;
 import com.fling.fllingbe.domain.flower.dto.FlowerInfo;
 import com.fling.fllingbe.domain.flower.repository.FlowerRepository;
+import com.fling.fllingbe.domain.item.domain.RibbonType;
+import com.fling.fllingbe.domain.item.domain.WrapperType;
+import com.fling.fllingbe.domain.item.repository.RibbonRepository;
+import com.fling.fllingbe.domain.item.repository.WrapperTypeRepository;
 import com.fling.fllingbe.domain.user.domain.User;
 import com.fling.fllingbe.domain.user.exception.UserNotFoundException;
 import com.fling.fllingbe.domain.user.repository.UserRepository;
@@ -18,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -29,12 +34,14 @@ public class BouquetService {
     private final UserRepository userRepository;
     private final FlowerRepository flowerRepository;
     private final JwtProvider jwtProvider;
+    private final RibbonRepository ribbonRepository;
+    private final WrapperTypeRepository wrapperTypeRepository;
     public Bouquet createNewBouquet(User user) {
         Bouquet receiverBouquet = bouquetRepository.findByUser(user).get();
         Bouquet newBouquet = new Bouquet().builder()
                 .user(user)
-                .ribbon(receiverBouquet.getRibbon())
-                .wrapper(receiverBouquet.getWrapper())
+                .ribbonType(receiverBouquet.getRibbonType())
+                .wrapperType(receiverBouquet.getWrapperType())
                 .build();
         bouquetRepository.save(newBouquet);
         return newBouquet;
@@ -42,10 +49,12 @@ public class BouquetService {
 
     public String createFirstBouquet(UUID id , CreateBouquetRequest request) {
         User user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException());
+        RibbonType ribbonType = ribbonRepository.findByRibbonName(request.getRibbon()).get();
+        WrapperType wrapperType = wrapperTypeRepository.findByWrapperName(request.getWrapper()).get();
         Bouquet newBouquet = new Bouquet().builder()
                 .user(user)
-                .ribbon(request.getRibbon())
-                .wrapper(request.getWrapper())
+                .ribbonType(ribbonType)
+                .wrapperType(wrapperType)
                 .build();
         bouquetRepository.save(newBouquet);
         return "꽃다발 생성에 성공하였습니다.";
@@ -67,8 +76,8 @@ public class BouquetService {
         return getBouquetResponse;
     }
     public BouquetDesign getBouquetDesign(Bouquet bouquet) {
-        BouquetDesign bouquetDesign = new BouquetDesign(bouquet.getWrapper()
-                ,bouquet.getRibbon()
+        BouquetDesign bouquetDesign = new BouquetDesign(bouquet.getWrapperType().getWrapperName()
+                ,bouquet.getRibbonType().getRibbonName()
                 ,bouquet.getDecoItem1().getDecoTypeName()
                 ,bouquet.getDecoItem2().getDecoTypeName()
                 ,bouquet.getDecoItem3().getDecoTypeName());
