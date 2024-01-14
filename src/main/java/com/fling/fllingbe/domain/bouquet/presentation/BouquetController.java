@@ -4,6 +4,7 @@ package com.fling.fllingbe.domain.bouquet.presentation;
 import com.fling.fllingbe.domain.bouquet.application.BouquetService;
 import com.fling.fllingbe.domain.bouquet.dto.CreateBouquetRequest;
 import com.fling.fllingbe.domain.bouquet.dto.GetBouquetResponse;
+import com.fling.fllingbe.domain.bouquet.dto.UpdateBouquetRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,15 +16,22 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BouquetController {
     private final BouquetService bouquetService;
+
     @PostMapping("/bouquet/{id}")
-    public ResponseEntity<String> createBouquet(@PathVariable("id")UUID id, @RequestBody CreateBouquetRequest request) {
+    public ResponseEntity<String> createBouquet(@PathVariable("id") UUID id, @RequestBody CreateBouquetRequest request) {
         String response = bouquetService.createFirstBouquet(id, request);
         return ResponseEntity.ok().body(response);
     }
+
     @GetMapping("/bouquet")
     public ResponseEntity<GetBouquetResponse> getBouquet(Authentication authentication) {
         GetBouquetResponse getBouquetResponse = bouquetService.getBouquetResponse(authentication);
         return ResponseEntity.ok().body(getBouquetResponse);
     }
 
+    @PatchMapping("/bouquet")
+    public ResponseEntity<String> updateBouquet(@RequestBody UpdateBouquetRequest request,Authentication authentication) {
+        String response = bouquetService.updateBouquet(request, authentication);
+        return ResponseEntity.ok().body(response);
+    }
 }
