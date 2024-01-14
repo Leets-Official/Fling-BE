@@ -53,4 +53,16 @@ public class FlowerItemService {
         }
         return flowerType;
     }
+    public void createDefaultFlowerItem(User user) {
+        List<FlowerType> flowerItemList = flowerTypeRepository.findAll();
+        for (FlowerType flowerType : flowerItemList) {
+            System.out.println(flowerType.getFlowerName());
+            FlowerItem flowerItem = FlowerItem.builder()
+                    .user(user)
+                    .count(0L)
+                    .flowerType(flowerType)
+                    .build();
+            flowerItemRepository.save(flowerItem);
+        }
+    }
 }
