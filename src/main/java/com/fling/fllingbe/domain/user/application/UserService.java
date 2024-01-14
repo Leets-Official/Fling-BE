@@ -2,7 +2,9 @@ package com.fling.fllingbe.domain.user.application;
 
 import com.fling.fllingbe.domain.coin.domain.Coin;
 import com.fling.fllingbe.domain.coin.repository.CoinRepository;
+import com.fling.fllingbe.domain.item.application.DecoItemService;
 import com.fling.fllingbe.domain.item.application.FlowerItemService;
+import com.fling.fllingbe.domain.item.domain.DecoItem;
 import com.fling.fllingbe.domain.user.domain.User;
 import com.fling.fllingbe.domain.user.dto.RefreshRequest;
 import com.fling.fllingbe.domain.user.dto.TestUserRequest;
@@ -37,6 +39,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final CoinRepository coinRepository;
     private final FlowerItemService flowerItemService;
+    private final DecoItemService decoItemService;
     private final JwtProvider jwtProvider;
 
     public ResponseEntity<UserResponse> login(UserRequest request) throws Exception {
@@ -159,6 +162,7 @@ public class UserService {
         userRepository.save(user);
         coinRepository.save(coin);
         flowerItemService.createDefaultFlowerItem(user);
+        decoItemService.createDefaultDecoItem(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

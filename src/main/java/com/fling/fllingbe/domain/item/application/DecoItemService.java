@@ -79,4 +79,15 @@ public class DecoItemService {
             decoItemRepository.save(newDecoItem);
         }
     }
+    public void createDefaultDecoItem(User user) {
+        List<DecoType> decoTypeList = decoTypeRepository.findAll();
+        for (DecoType decoType : decoTypeList) {
+            DecoItem decoItem = DecoItem.builder()
+                    .user(user)
+                    .decoType(decoType)
+                    .isUsing(false)
+                    .build();
+            decoItemRepository.save(decoItem);
+        }
+    }
 }
