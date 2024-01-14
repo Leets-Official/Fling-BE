@@ -29,7 +29,4 @@ public class DecoItem {
 
     @Column
     private Boolean isUsing;
-
-    @Column
-    private Long count;
 }
