@@ -1,5 +1,7 @@
 package com.fling.fllingbe.domain.user.application;
 
+import com.fling.fllingbe.domain.coin.domain.Coin;
+import com.fling.fllingbe.domain.coin.repository.CoinRepository;
 import com.fling.fllingbe.domain.user.domain.User;
 import com.fling.fllingbe.domain.user.dto.RefreshRequest;
 import com.fling.fllingbe.domain.user.dto.TestUserRequest;
@@ -11,11 +13,11 @@ import com.fling.fllingbe.global.jwt.presentation.JwtResponse;
 import com.nimbusds.jose.shaded.gson.JsonElement;
 import com.nimbusds.jose.shaded.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -32,16 +34,18 @@ public class UserService {
     private boolean isUsingRefreshToken;
 
     private final UserRepository userRepository;
+    private final CoinRepository coinRepository;
     private final JwtProvider jwtProvider;
+
     public ResponseEntity<UserResponse> login(UserRequest request) throws Exception {
         String email = getEmail(request.getAccessToken());
-        if (userRepository.existsByEmail(email)){
+        if (userRepository.existsByEmail(email)) {
             User user = userRepository.findByEmail(email).get();
             JwtResponse tokenDto = new JwtResponse(
                     jwtProvider.createAccessToken(user.getEmail()),
                     jwtProvider.createRefreshToken(user.getEmail())
             );
-            UserResponse signResponse= UserResponse.builder()
+            UserResponse signResponse = UserResponse.builder()
                     .userId(user.getUserId())
                     .email(user.getEmail())
                     .nickname(user.getNickname())
@@ -60,12 +64,17 @@ public class UserService {
                 .email(email)
                 .nickname(request.getNickname())
                 .build();
+        Coin coin = Coin.builder()
+                .user(user)
+                .coin(1000)
+                .build();
         userRepository.save(user);
+        coinRepository.save(coin);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<JwtResponse> tokenRefresh(RefreshRequest request) throws Exception {
-        if(isUsingRefreshToken){
+        if (isUsingRefreshToken) {
             JwtResponse jwtResponse = jwtProvider.reissueToken(request);
             return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
         }
@@ -101,7 +110,7 @@ public class UserService {
         int id = element.getAsJsonObject().get("id").getAsInt();
         boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
         String email = "";
-        if(hasEmail){
+        if (hasEmail) {
             email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
         }
 
@@ -113,7 +122,7 @@ public class UserService {
 
 
     public ResponseEntity<UserResponse> testLogin(TestUserRequest request) throws Exception {
-        if (userRepository.existsByEmail(request.getEmail())){
+        if (userRepository.existsByEmail(request.getEmail())) {
             User user = userRepository.findByEmail(request.getEmail()).get();
             JwtResponse tokenDto = new JwtResponse(
                     jwtProvider.createAccessToken(user.getEmail()),
@@ -123,7 +132,7 @@ public class UserService {
                             :
                             "No Refresh Token Provided"
             );
-            UserResponse signResponse= UserResponse.builder()
+            UserResponse signResponse = UserResponse.builder()
                     .userId(user.getUserId())
                     .email(user.getEmail())
                     .nickname(user.getNickname())
@@ -141,7 +150,12 @@ public class UserService {
                 .email(request.getEmail())
                 .nickname(request.getNickname())
                 .build();
+        Coin coin = Coin.builder()
+                .user(user)
+                .coin(1000)
+                .build();
         userRepository.save(user);
+        coinRepository.save(coin);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
