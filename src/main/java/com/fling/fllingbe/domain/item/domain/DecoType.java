@@ -22,9 +22,6 @@ public class DecoType {
     private String decoTypeName;
 
     @Column
-    private Long position;
-
-    @Column
     private String description;
 
     @Column

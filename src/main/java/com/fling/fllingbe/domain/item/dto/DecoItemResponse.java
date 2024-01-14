@@ -12,9 +12,8 @@ import lombok.Getter;
 public class DecoItemResponse {
     private String decoType;
     private Boolean isUsing;
-    private Long Position;
 
     public static DecoItemResponse fromEntity(DecoItem decoItem) {
-        return new DecoItemResponse(decoItem.getDecoType().getDecoTypeName(), decoItem.getIsUsing(),decoItem.getDecoType().getPosition());
+        return new DecoItemResponse(decoItem.getDecoType().getDecoTypeName(), decoItem.getIsUsing());
     }
 }
