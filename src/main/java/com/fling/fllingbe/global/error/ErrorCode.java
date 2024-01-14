@@ -10,7 +10,8 @@ public enum ErrorCode {
     INVALID_TOKEN(401, "INVALID_TOKEN", "유효하지 않은 토큰입니다."),
     EXPIRED_TOKEN(403, "EXPIRED_TOKEN", "만료된 토큰입니다."),
     USER_NOT_FOUND(404,"USER_NOT_FOUND","유저를 찾을 수 없습니다."),
-    COIN_NOT_FOUND(404,"COIN_NOT_FOUND","코인을 찾을 수 없습니다.");
+    COIN_NOT_FOUND(404,"COIN_NOT_FOUND","코인을 찾을 수 없습니다."),
+    FLOWER_NOT_FOUND(404,"FLOWER_NOT_FOUND","꽃을 찾을 수 없습니다.");
     private final int httpStatus;
     private final String code;
     private final String message;
