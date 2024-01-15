@@ -3,8 +3,10 @@ package com.fling.fllingbe.domain.flower.presentation;
 
 import com.fling.fllingbe.domain.flower.application.FlowerService;
 import com.fling.fllingbe.domain.flower.dto.FlowerRequest;
+import com.fling.fllingbe.domain.flower.dto.GetLetter;
 import com.fling.fllingbe.domain.flower.dto.ReceivedFlower;
 import com.fling.fllingbe.domain.flower.dto.SentFlower;
+import com.fling.fllingbe.domain.item.dto.GetItemById;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -33,5 +35,11 @@ public class FlowerController {
     public ResponseEntity<List<ReceivedFlower>> getReceivedFlower(Authentication authentication) {
         List<ReceivedFlower> receivedFlowerList = flowerService.getReceivedFlower(authentication.getName());
         return ResponseEntity.ok().body(receivedFlowerList);
+    }
+
+    @GetMapping(value = "/flower")
+    public ResponseEntity<GetLetter> getLetter(@RequestBody GetItemById request) {
+        GetLetter getLetter = flowerService.getLetter(request);
+        return ResponseEntity.ok().body(getLetter);
     }
 }
