@@ -4,7 +4,7 @@ import com.fling.fllingbe.domain.flower.dto.FlowerRequest;
 import com.fling.fllingbe.domain.item.domain.FlowerItem;
 import com.fling.fllingbe.domain.item.domain.FlowerType;
 import com.fling.fllingbe.domain.item.dto.FlowerItemResponse;
-import com.fling.fllingbe.domain.item.dto.GetItemRequest;
+import com.fling.fllingbe.domain.item.dto.GetItemById;
 import com.fling.fllingbe.domain.item.dto.GetItemResponse;
 import com.fling.fllingbe.domain.item.repository.FlowerItemRepository;
 import com.fling.fllingbe.domain.item.repository.FlowerTypeRepository;
@@ -15,8 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,7 +66,7 @@ public class FlowerItemService {
         }
     }
 
-    public GetItemResponse getFlowerItemInfo(GetItemRequest request) {
+    public GetItemResponse getFlowerItemInfo(GetItemById request) {
         FlowerType flowerType = flowerTypeRepository.findById(request.getId()).get();
         GetItemResponse getItemResponse = GetItemResponse.builder()
                 .itemName(flowerType.getFlowerName())

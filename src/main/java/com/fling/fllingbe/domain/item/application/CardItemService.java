@@ -4,10 +4,8 @@ package com.fling.fllingbe.domain.item.application;
 import com.fling.fllingbe.domain.flower.dto.FlowerRequest;
 import com.fling.fllingbe.domain.item.domain.CardItem;
 import com.fling.fllingbe.domain.item.domain.CardType;
-import com.fling.fllingbe.domain.item.domain.FlowerItem;
 import com.fling.fllingbe.domain.item.dto.CardItemResponse;
-import com.fling.fllingbe.domain.item.dto.FlowerItemResponse;
-import com.fling.fllingbe.domain.item.dto.GetItemRequest;
+import com.fling.fllingbe.domain.item.dto.GetItemById;
 import com.fling.fllingbe.domain.item.dto.GetItemResponse;
 import com.fling.fllingbe.domain.item.repository.CardItemRepository;
 import com.fling.fllingbe.domain.item.repository.CardTypeRepository;
@@ -18,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,8 +69,8 @@ CardItemService {
         }
     }
 
-    public GetItemResponse getCardItemInfo(GetItemRequest getItemRequest) {
-        CardType cardType = cardTypeRepository.findById(getItemRequest.getId()).get();
+    public GetItemResponse getCardItemInfo(GetItemById getItemById) {
+        CardType cardType = cardTypeRepository.findById(getItemById.getId()).get();
         GetItemResponse getItemResponse = GetItemResponse.builder()
                 .itemName(cardType.getCardName())
                 .description(cardType.getDescription())
