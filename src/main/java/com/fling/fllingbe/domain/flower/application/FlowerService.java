@@ -5,6 +5,7 @@ import com.fling.fllingbe.domain.bouquet.application.BouquetService;
 import com.fling.fllingbe.domain.bouquet.domain.Bouquet;
 import com.fling.fllingbe.domain.bouquet.repository.BouquetRepository;
 import com.fling.fllingbe.domain.flower.domain.Flower;
+import com.fling.fllingbe.domain.flower.dto.GetLetter;
 import com.fling.fllingbe.domain.flower.dto.ReceivedFlower;
 import com.fling.fllingbe.domain.flower.dto.SentFlower;
 import com.fling.fllingbe.domain.flower.repository.FlowerRepository;
@@ -13,6 +14,7 @@ import com.fling.fllingbe.domain.item.application.CardItemService;
 import com.fling.fllingbe.domain.item.application.FlowerItemService;
 import com.fling.fllingbe.domain.item.domain.CardType;
 import com.fling.fllingbe.domain.item.domain.FlowerType;
+import com.fling.fllingbe.domain.item.dto.GetItemById;
 import com.fling.fllingbe.domain.user.domain.User;
 import com.fling.fllingbe.domain.user.exception.UserNotFoundException;
 import com.fling.fllingbe.domain.user.repository.UserRepository;
@@ -80,6 +82,17 @@ public class FlowerService {
         List<Flower> flowerList = flowerRepository.findAllByReceiver(user);
         List<ReceivedFlower> receivedFlowerList = flowerList.stream().map(ReceivedFlower::fromEntity).toList();
         return receivedFlowerList;
+    }
+
+    public GetLetter getLetter(GetItemById request) {
+        Flower flower = flowerRepository.findById(request.getId()).get();
+        GetLetter getLetter = GetLetter.builder()
+                .letter(flower.getLetter())
+                .flowerType(flower.getFlowerType().getFlowerName())
+                .cardType(flower.getCardType().getCardName())
+                .build();
+
+        return getLetter;
     }
 }
 
