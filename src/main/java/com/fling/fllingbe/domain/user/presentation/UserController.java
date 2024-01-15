@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping(value = "/login")
+    @GetMapping(value = "/login")
     public ResponseEntity<UserResponse> login(@RequestBody UserRequest request) throws Exception {
         return userService.login(request);
     }
@@ -29,7 +29,7 @@ public class UserController {
         return userService.tokenRefresh(request);
     }
 
-    @PostMapping(value = "/test-login")
+    @GetMapping(value = "/test-login")
     public ResponseEntity<UserResponse> testLogin(@RequestBody TestUserRequest request) throws Exception {
         return userService.testLogin(request);
     }
