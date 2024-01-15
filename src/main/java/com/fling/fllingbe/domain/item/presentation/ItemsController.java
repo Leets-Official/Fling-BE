@@ -15,8 +15,8 @@ public class ItemsController {
     private final ItemsService itemsService;
 
     @GetMapping("/items")
-    public ResponseEntity<GetItemsResponse> getItems() {
-        GetItemsResponse getItemsResponse = itemsService.getItems();
+    public ResponseEntity<GetItemsResponse> getItems(Authentication authentication) {
+        GetItemsResponse getItemsResponse = itemsService.getItems(authentication);
         return ResponseEntity.ok().body(getItemsResponse);
     }
 }

@@ -13,11 +13,14 @@ import lombok.Getter;
 public class FlowerItemInfo {
     private Long id;
     private String type;
-
-    public static FlowerItemInfo fromEntity(FlowerType flowerType) {
+    private boolean owned;
+    private Long amount;
+    public static FlowerItemInfo fromEntity(FlowerItem flowerItem) {
         FlowerItemInfo flowerItemInfo = FlowerItemInfo.builder()
-                .id(flowerType.getFlowerTypeId())
-                .type(flowerType.getFlowerName())
+                .id(flowerItem.getFlowerType().getFlowerTypeId())
+                .type(flowerItem.getFlowerType().getFlowerName())
+                .owned(flowerItem.isOwned())
+                .amount(flowerItem.getCount())
                 .build();
         return flowerItemInfo;
     }

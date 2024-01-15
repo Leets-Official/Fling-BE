@@ -13,11 +13,14 @@ import lombok.Getter;
 public class CardItemInfo {
     private Long id;
     private String type;
-
-    public static CardItemInfo fromEntity(CardType cardType) {
+    private boolean owned;
+    private Long amount;
+    public static CardItemInfo fromEntity(CardItem cardItem) {
         CardItemInfo cardItemInfo = CardItemInfo.builder()
-                .id(cardType.getCardTypeId())
-                .type(cardType.getCardName())
+                .id(cardItem.getCardType().getCardTypeId())
+                .type(cardItem.getCardType().getCardName())
+                .owned(cardItem.isOwned())
+                .amount(cardItem.getCount())
                 .build();
         return cardItemInfo;
     }

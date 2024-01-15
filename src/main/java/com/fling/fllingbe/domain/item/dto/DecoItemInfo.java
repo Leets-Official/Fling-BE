@@ -14,11 +14,12 @@ import lombok.Getter;
 public class DecoItemInfo {
     private Long id;
     private String type;
-
-    public static DecoItemInfo fromEntity(DecoType decoType) {
+    private boolean owned;
+    public static DecoItemInfo fromEntity(DecoItem decoItem) {
         DecoItemInfo decoItemInfo = DecoItemInfo.builder()
-                .id(decoType.getDecoTypeId())
-                .type(decoType.getDecoTypeName())
+                .id(decoItem.getDecoItemId())
+                .type(decoItem.getDecoType().getDecoTypeName())
+                .owned(decoItem.isOwned())
                 .build();
         return decoItemInfo;
     }
