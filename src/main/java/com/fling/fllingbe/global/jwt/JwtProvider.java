@@ -75,7 +75,7 @@ public class JwtProvider {
             throw new InvalidTokenException();
         JwtResponse tokenDto = new JwtResponse(
                 this.createAccessToken(authentication.getName()),
-                this.createRefreshToken(authentication.getName())
+                "No Refresh Token Provided"
         );
         return tokenDto;
     }
