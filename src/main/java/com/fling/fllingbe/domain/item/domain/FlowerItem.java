@@ -26,5 +26,8 @@ public class FlowerItem {
     private FlowerType flowerType;
 
     @Column
+    private boolean owned;
+
+    @Column
     private Long count;
 }

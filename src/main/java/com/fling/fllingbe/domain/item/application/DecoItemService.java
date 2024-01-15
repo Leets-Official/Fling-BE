@@ -87,6 +87,7 @@ public class DecoItemService {
             DecoItem decoItem = DecoItem.builder()
                     .user(user)
                     .decoType(decoType)
+                    .owned(decoType.getPrice() == 0)
                     .isUsing(false)
                     .build();
             decoItemRepository.save(decoItem);

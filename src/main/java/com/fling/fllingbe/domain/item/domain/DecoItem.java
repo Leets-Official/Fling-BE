@@ -28,5 +28,8 @@ public class DecoItem {
     private DecoType decoType;
 
     @Column
+    private boolean owned;
+
+    @Column
     private Boolean isUsing;
 }

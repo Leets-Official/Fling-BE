@@ -65,6 +65,7 @@ CardItemService {
             CardItem cardItem = CardItem.builder()
                     .cardType(cardType)
                     .user(user)
+                    .owned(cardType.getPrice() == 0)
                     .count(0L)
                     .build();
             cardItemRepository.save(cardItem);
