@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class GetItemRequest {
+public class GetItemById {
     private Long id;
-    public GetItemRequest(){};
+    public GetItemById(){};
 }

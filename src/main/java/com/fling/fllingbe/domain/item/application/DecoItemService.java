@@ -1,13 +1,10 @@
 package com.fling.fllingbe.domain.item.application;
 
-import com.fling.fllingbe.domain.bouquet.domain.Bouquet;
 import com.fling.fllingbe.domain.bouquet.dto.UpdateBouquetRequest;
 import com.fling.fllingbe.domain.item.domain.DecoItem;
 import com.fling.fllingbe.domain.item.domain.DecoType;
-import com.fling.fllingbe.domain.item.domain.FlowerItem;
 import com.fling.fllingbe.domain.item.dto.DecoItemResponse;
-import com.fling.fllingbe.domain.item.dto.FlowerItemResponse;
-import com.fling.fllingbe.domain.item.dto.GetItemRequest;
+import com.fling.fllingbe.domain.item.dto.GetItemById;
 import com.fling.fllingbe.domain.item.dto.GetItemResponse;
 import com.fling.fllingbe.domain.item.repository.DecoItemRepository;
 import com.fling.fllingbe.domain.item.repository.DecoTypeRepository;
@@ -19,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -93,7 +88,7 @@ public class DecoItemService {
             decoItemRepository.save(decoItem);
         }
     }
-    public GetItemResponse getDecoItemInfo(GetItemRequest request) {
+    public GetItemResponse getDecoItemInfo(GetItemById request) {
         DecoType decoType = decoTypeRepository.findById(request.getId()).get();
         GetItemResponse getItemResponse = GetItemResponse.builder()
                 .itemName(decoType.getDecoTypeName())
