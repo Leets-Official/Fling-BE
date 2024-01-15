@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UserRequest {
-    private String email;
+    private String accessToken;
     private String nickname;
 }
 

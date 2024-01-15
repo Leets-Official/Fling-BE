@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface FlowerTypeRepository extends JpaRepository<FlowerType, Long> {
     Optional<FlowerType> findById(Long flowerTypeId);
+    Optional<FlowerType> findByFlowerName(String flowerName);
 }

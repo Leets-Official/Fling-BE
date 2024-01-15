@@ -22,7 +22,7 @@ public class DecoType {
     private String decoTypeName;
 
     @Column
-    private Long position;
+    private String description;
 
     @Column
     private Long price;

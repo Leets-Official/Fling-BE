@@ -23,13 +23,13 @@ public class DecoItem {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "deco_type_id")
     private DecoType decoType;
 
     @Column
-    private Boolean isUsing;
+    private boolean owned;
 
     @Column
-    private Long count;
+    private Boolean isUsing;
 }

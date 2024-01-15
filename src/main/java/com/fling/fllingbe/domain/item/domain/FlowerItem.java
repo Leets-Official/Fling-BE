@@ -5,7 +5,7 @@ import com.fling.fllingbe.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-
+@Setter
 @Getter
 @Builder
 @NoArgsConstructor
@@ -21,9 +21,12 @@ public class FlowerItem {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "flower_type_id")
     private FlowerType flowerType;
+
+    @Column
+    private boolean owned;
 
     @Column
     private Long count;
