@@ -35,7 +35,6 @@ public class BouquetService {
     private final  BouquetRepository bouquetRepository;
     private final UserRepository userRepository;
     private final FlowerRepository flowerRepository;
-    private final JwtProvider jwtProvider;
     private final RibbonRepository ribbonRepository;
     private final WrapperTypeRepository wrapperTypeRepository;
     private final DecoTypeRepository decoTypeRepository;
@@ -59,9 +58,9 @@ public class BouquetService {
         User user = userRepository.findByEmail(authentication.getName()).orElseThrow(()-> new UserNotFoundException());
         Bouquet newBouquet = new Bouquet().builder()
                 .user(user)
-                .decoItem1(decoTypeRepository.findByDecoTypeName("아이템 1").get())
-                .decoItem2(decoTypeRepository.findByDecoTypeName("아이템 2").get())
-                .decoItem3(decoTypeRepository.findByDecoTypeName("아이템 3").get())
+                .decoItem1(decoTypeRepository.findByDecoTypeName("undefined").get())
+                .decoItem2(decoTypeRepository.findByDecoTypeName("undefined").get())
+                .decoItem3(decoTypeRepository.findByDecoTypeName("undefined").get())
                 .ribbonType(ribbonRepository.findByRibbonName(request.getRibbon()).get())
                 .wrapperType(wrapperTypeRepository.findByWrapperName(request.getWrapper()).get())
                 .build();

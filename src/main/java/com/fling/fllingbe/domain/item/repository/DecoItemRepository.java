@@ -14,4 +14,5 @@ public interface DecoItemRepository extends JpaRepository<DecoItem,Long> {
     Optional<DecoItem> findByDecoType(DecoType decoType);
     Optional<DecoItem> findByUserAndDecoType(User user, DecoType decoType);
     List<DecoItem> findAllByUserAndIsUsing(User user,boolean isUsing);
+    List<DecoItem> findAllByUserAndDecoTypeIsNot(User user, DecoType decoType);
 }

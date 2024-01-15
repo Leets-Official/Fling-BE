@@ -7,6 +7,8 @@ import com.fling.fllingbe.domain.item.domain.DecoType;
 import com.fling.fllingbe.domain.item.domain.FlowerItem;
 import com.fling.fllingbe.domain.item.dto.DecoItemResponse;
 import com.fling.fllingbe.domain.item.dto.FlowerItemResponse;
+import com.fling.fllingbe.domain.item.dto.GetItemRequest;
+import com.fling.fllingbe.domain.item.dto.GetItemResponse;
 import com.fling.fllingbe.domain.item.repository.DecoItemRepository;
 import com.fling.fllingbe.domain.item.repository.DecoTypeRepository;
 import com.fling.fllingbe.domain.user.domain.User;
@@ -78,5 +80,25 @@ public class DecoItemService {
                     .build();
             decoItemRepository.save(newDecoItem);
         }
+    }
+    public void createDefaultDecoItem(User user) {
+        List<DecoType> decoTypeList = decoTypeRepository.findAll();
+        for (DecoType decoType : decoTypeList) {
+            DecoItem decoItem = DecoItem.builder()
+                    .user(user)
+                    .decoType(decoType)
+                    .owned(decoType.getPrice() == 0)
+                    .isUsing(false)
+                    .build();
+            decoItemRepository.save(decoItem);
+        }
+    }
+    public GetItemResponse getDecoItemInfo(GetItemRequest request) {
+        DecoType decoType = decoTypeRepository.findById(request.getId()).get();
+        GetItemResponse getItemResponse = GetItemResponse.builder()
+                .itemName(decoType.getDecoTypeName())
+                .description(decoType.getDescription())
+                .build();
+        return getItemResponse;
     }
 }

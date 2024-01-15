@@ -28,5 +28,8 @@ public class CardItem {
     private CardType cardType;
 
     @Column
+    private boolean owned;
+
+    @Column
     private Long count;
 }

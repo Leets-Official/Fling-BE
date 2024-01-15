@@ -45,7 +45,7 @@ public class FlowerService {
             System.out.println(flowers.size());
             Bouquet bouquet;
 
-            if (flowers.size() % 10 == 0 && flowers.size() != 0) {
+            if (flowers.size() % 5 == 0 && flowers.size() != 0) {
                 bouquet = bouquetService.createNewBouquet(receiver);
             } else {
                 List<Bouquet> bouquets = bouquetRepository.findAllByUser(receiver);
