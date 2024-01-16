@@ -25,7 +25,9 @@ public class CorsConfig implements WebMvcConfigurer {
                         "http://localhost:8080",
                         "http://127.0.0.1:8080",
                         developmentOrigin,
-                        productionOrigin
+                        productionOrigin,
+                        "https://www.fling.today",
+                        "https://fling.today"
                 )
                 .allowedHeaders("*")
                 .exposedHeaders("*");
