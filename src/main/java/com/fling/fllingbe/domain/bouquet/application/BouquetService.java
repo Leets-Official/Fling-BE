@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Wrapper;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -95,7 +96,7 @@ public class BouquetService {
             GetBouquetResponse getBouquetResponse = new GetBouquetResponse(description,dDay,bouquetDesign, bouquetInfos);
             return getBouquetResponse;
         } else {
-            GetBouquetResponse getBouquetResponse = new GetBouquetResponse(null,null,null,null);
+            GetBouquetResponse getBouquetResponse = new GetBouquetResponse(null,null,null, Collections.emptyList());
             return getBouquetResponse;
         }
     }

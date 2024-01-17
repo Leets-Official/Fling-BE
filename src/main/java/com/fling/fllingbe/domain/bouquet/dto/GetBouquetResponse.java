@@ -16,5 +16,5 @@ public class GetBouquetResponse {
     private String description;
     private LocalDateTime dDay;
     private BouquetDesign bouquetDesign;
-    private List bouquets;
+    private List<BouquetInfo> bouquets;
 }
