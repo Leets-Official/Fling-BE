@@ -67,8 +67,8 @@ public class BouquetService {
         bouquetRepository.save(newBouquet);
         return "꽃다발 생성에 성공하였습니다.";
     }
-    public GetBouquetResponse getBouquetResponse(Authentication authentication) {
-        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(()-> new UserNotFoundException());
+    public GetBouquetResponse getBouquetResponse(UUID userId) {
+        User user = userRepository.findByUserId(userId).orElseThrow(()-> new UserNotFoundException());
         List<Bouquet> bouquets = bouquetRepository.findAllByUser(user);
         if (bouquets.size() != 0) {
             List<BouquetInfo> bouquetInfos = new ArrayList<>();
