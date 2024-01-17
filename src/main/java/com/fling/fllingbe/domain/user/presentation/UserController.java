@@ -6,7 +6,10 @@ import com.fling.fllingbe.domain.user.dto.*;
 import com.fling.fllingbe.global.jwt.presentation.JwtResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,5 +40,25 @@ public class UserController {
     @PostMapping(value = "/test-register")
     public ResponseEntity<Void> testRegister(@RequestBody TestUserRequest request) throws Exception {
         return userService.testRegister(request);
+    }
+
+    @PatchMapping(value = "/nickname")
+    public ResponseEntity<Void> setNickname(@RequestBody NicknameRequest request, Authentication authentication) throws Exception {
+        return userService.setNickname(request, authentication.getName());
+    }
+
+    @PatchMapping(value = "/congratulatee")
+    public ResponseEntity<Void> setCongratulateeInfo(@RequestBody CongratulateeDto request, Authentication authentication) throws Exception {
+        return userService.setCongratulateeInfo(request, authentication.getName());
+    }
+
+    @GetMapping(value = "/congratulatee/{id}")
+    public ResponseEntity<CongratulateeDto> getCongratulateeInfo(@PathVariable UUID id) throws Exception {
+        return userService.getCongratulateeInfo(id);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> delUser(Authentication authentication) throws Exception {
+        return userService.delUser(authentication.getName());
     }
 }
