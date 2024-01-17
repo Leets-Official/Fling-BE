@@ -5,12 +5,8 @@ import com.fling.fllingbe.domain.coin.repository.CoinRepository;
 import com.fling.fllingbe.domain.item.application.CardItemService;
 import com.fling.fllingbe.domain.item.application.DecoItemService;
 import com.fling.fllingbe.domain.item.application.FlowerItemService;
-import com.fling.fllingbe.domain.item.domain.DecoItem;
 import com.fling.fllingbe.domain.user.domain.User;
-import com.fling.fllingbe.domain.user.dto.RefreshRequest;
-import com.fling.fllingbe.domain.user.dto.TestUserRequest;
-import com.fling.fllingbe.domain.user.dto.UserRequest;
-import com.fling.fllingbe.domain.user.dto.UserResponse;
+import com.fling.fllingbe.domain.user.dto.*;
 import com.fling.fllingbe.domain.user.repository.UserRepository;
 import com.fling.fllingbe.global.jwt.JwtProvider;
 import com.fling.fllingbe.global.jwt.presentation.JwtResponse;
@@ -27,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.UUID;
 
 
 @Service
@@ -166,6 +163,43 @@ public class UserService {
         flowerItemService.createDefaultFlowerItem(user);
         decoItemService.createDefaultDecoItem(user);
         cardItemService.createDefaultCardItem(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<Void> setNickname(NicknameRequest request, String email) throws Exception {
+        if (!userRepository.existsByEmail(email))
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        User user = userRepository.findByEmail(email).get();
+        user.setNickname(request.getNickname());
+        userRepository.save(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<Void> setCongratulateeInfo(CongratulateeDto request, String email) throws Exception {
+        if (!userRepository.existsByEmail(email))
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        User user = userRepository.findByEmail(email).get();
+        user.setDDay(request.getDDay());
+        user.setDescription(request.getDescription());
+        userRepository.save(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<CongratulateeDto> getCongratulateeInfo(UUID id) throws Exception {
+        if (!userRepository.existsByUserId(id))
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        User user = userRepository.findByUserId(id).get();
+        CongratulateeDto congratulateeDto = CongratulateeDto.builder()
+                .dDay(user.getDDay())
+                .description(user.getDescription())
+                .build();
+        return new ResponseEntity<>(congratulateeDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Void> delUser(String email) throws Exception {
+        if (!userRepository.existsByEmail(email))
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        userRepository.deleteByEmail(email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

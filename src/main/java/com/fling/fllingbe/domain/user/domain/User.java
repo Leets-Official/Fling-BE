@@ -29,8 +29,13 @@ public class User extends BaseTimeEntity {
     private String nickname;
 
     @Column
-    private LocalDateTime deletedAt;
+    private LocalDateTime dDay;
 
+    @Column
+    private String description;
+
+    @Column
+    private LocalDateTime deletedAt;
     @PreDestroy
     public void preDestroy() {
         this.deletedAt = LocalDateTime.now();
