@@ -25,6 +25,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.sql.Wrapper;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -81,10 +82,12 @@ public class BouquetService {
                 BouquetInfo bouquetInfo = new BouquetInfo(bouquet.getBouquetId(), flowerInfoList);
                 bouquetInfos.add(bouquetInfo);
             }
-            GetBouquetResponse getBouquetResponse = new GetBouquetResponse(bouquetDesign, bouquetInfos);
+            String description = user.getDescription();
+            LocalDateTime dDay = user.getDDay();
+            GetBouquetResponse getBouquetResponse = new GetBouquetResponse(description,dDay,bouquetDesign, bouquetInfos);
             return getBouquetResponse;
         } else {
-            GetBouquetResponse getBouquetResponse = new GetBouquetResponse(null,null);
+            GetBouquetResponse getBouquetResponse = new GetBouquetResponse(null,null,null,null);
             return getBouquetResponse;
         }
     }
