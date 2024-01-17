@@ -70,18 +70,23 @@ public class BouquetService {
     public GetBouquetResponse getBouquetResponse(Authentication authentication) {
         User user = userRepository.findByEmail(authentication.getName()).orElseThrow(()-> new UserNotFoundException());
         List<Bouquet> bouquets = bouquetRepository.findAllByUser(user);
-        List<BouquetInfo> bouquetInfos = new ArrayList<>();
-        BouquetDesign bouquetDesign = getBouquetDesign(bouquets.get(0));
-        for(Bouquet bouquet : bouquets){
-            List<Flower> flowers = flowerRepository.findAllByBouquetId(bouquet);
-            List<FlowerInfo> flowerInfoList = flowers.stream()
-                    .map(FlowerInfo::fromEntity)
-                    .toList();
-            BouquetInfo bouquetInfo = new BouquetInfo(bouquet.getBouquetId(), flowerInfoList);
-            bouquetInfos.add(bouquetInfo);
+        if (bouquets.size() != 0) {
+            List<BouquetInfo> bouquetInfos = new ArrayList<>();
+            BouquetDesign bouquetDesign = getBouquetDesign(bouquets.get(0));
+            for (Bouquet bouquet : bouquets) {
+                List<Flower> flowers = flowerRepository.findAllByBouquetId(bouquet);
+                List<FlowerInfo> flowerInfoList = flowers.stream()
+                        .map(FlowerInfo::fromEntity)
+                        .toList();
+                BouquetInfo bouquetInfo = new BouquetInfo(bouquet.getBouquetId(), flowerInfoList);
+                bouquetInfos.add(bouquetInfo);
+            }
+            GetBouquetResponse getBouquetResponse = new GetBouquetResponse(bouquetDesign, bouquetInfos);
+            return getBouquetResponse;
+        } else {
+            GetBouquetResponse getBouquetResponse = new GetBouquetResponse(null,null);
+            return getBouquetResponse;
         }
-        GetBouquetResponse getBouquetResponse = new GetBouquetResponse(bouquetDesign,bouquetInfos);
-        return getBouquetResponse;
     }
     public BouquetDesign getBouquetDesign(Bouquet bouquet) {
         BouquetDesign bouquetDesign = new BouquetDesign(bouquet.getWrapperType().getWrapperName()

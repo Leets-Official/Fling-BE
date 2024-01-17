@@ -13,5 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 public class GetBouquetResponse {
     private BouquetDesign bouquetDesign;
-    private List<BouquetInfo> bouquets;
+    private List bouquets;
 }
