@@ -66,6 +66,14 @@ public class BouquetService {
                 .wrapperType(wrapperTypeRepository.findByWrapperName(request.getWrapper()).get())
                 .build();
         bouquetRepository.save(newBouquet);
+        User newUser = User.builder()
+                .userId(user.getUserId())
+                .email(user.getEmail())
+                .dDay(request.getDDay())
+                .nickname(user.getNickname())
+                .description(request.getBouquetName())
+                .build();
+        userRepository.save(newUser);
         return "꽃다발 생성에 성공하였습니다.";
     }
     public GetBouquetResponse getBouquetResponse(UUID userId) {
