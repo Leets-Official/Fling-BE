@@ -43,6 +43,7 @@ CardItemService {
                     .user(user)
                     .cardType(cardType)
                     .count(cardItem.getCount() - 1)
+                    .owned(true)
                     .build();
             cardItemRepository.save(newCardItem);
         } else {
@@ -51,6 +52,7 @@ CardItemService {
                     .user(user)
                     .cardType(cardType)
                     .count(cardItem.getCount())
+                    .owned(true)
                     .build();
             cardItemRepository.save(newCardItem);
         }
@@ -59,11 +61,12 @@ CardItemService {
     public void createDefaultCardItem(User user) {
         List<CardType> cardTypeList = cardTypeRepository.findAll();
         for (CardType cardType : cardTypeList) {
+            Long count = (cardType.getPrice() == 0) ? -1L : 0L;
             CardItem cardItem = CardItem.builder()
                     .cardType(cardType)
                     .user(user)
                     .owned(cardType.getPrice() == 0)
-                    .count(0L)
+                    .count(count)
                     .build();
             cardItemRepository.save(cardItem);
         }
