@@ -43,6 +43,7 @@ CardItemService {
                     .user(user)
                     .cardType(cardType)
                     .count(cardItem.getCount() - 1)
+                    .owned(true)
                     .build();
             cardItemRepository.save(newCardItem);
         } else {
@@ -51,6 +52,7 @@ CardItemService {
                     .user(user)
                     .cardType(cardType)
                     .count(cardItem.getCount())
+                    .owned(true)
                     .build();
             cardItemRepository.save(newCardItem);
         }

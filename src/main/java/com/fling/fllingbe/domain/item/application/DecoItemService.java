@@ -44,6 +44,7 @@ public class DecoItemService {
                 .decoType(decoType1)
                 .user(user)
                 .isUsing(true)
+                .owned(true)
                 .build();
         decoItemRepository.save(newDecoItem1);
         DecoItem newDecoItem2 = new DecoItem().builder()
@@ -51,6 +52,7 @@ public class DecoItemService {
                 .decoType(decoType2)
                 .user(user)
                 .isUsing(true)
+                .owned(true)
                 .build();
         decoItemRepository.save(newDecoItem2);
         DecoItem newDecoItem3 = new DecoItem().builder()
@@ -58,6 +60,7 @@ public class DecoItemService {
                 .decoType(decoType3)
                 .user(user)
                 .isUsing(true)
+                .owned(true)
                 .build();
         decoItemRepository.save(newDecoItem3);
         decoItemList.add(newDecoItem1);
@@ -72,6 +75,7 @@ public class DecoItemService {
                     .decoType(decoItem.getDecoType())
                     .user(user)
                     .isUsing(false)
+                    .owned(true)
                     .build();
             decoItemRepository.save(newDecoItem);
         }
