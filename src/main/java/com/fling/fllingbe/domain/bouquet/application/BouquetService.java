@@ -25,7 +25,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.sql.Wrapper;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,23 +67,38 @@ public class BouquetService {
                 .wrapperType(wrapperTypeRepository.findByWrapperName(request.getWrapper()).get())
                 .build();
         bouquetRepository.save(newBouquet);
+        User newUser = User.builder()
+                .userId(user.getUserId())
+                .email(user.getEmail())
+                .dDay(request.getDDay())
+                .nickname(user.getNickname())
+                .description(request.getBouquetName())
+                .build();
+        userRepository.save(newUser);
         return "꽃다발 생성에 성공하였습니다.";
     }
-    public GetBouquetResponse getBouquetResponse(Authentication authentication) {
-        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(()-> new UserNotFoundException());
+    public GetBouquetResponse getBouquetResponse(UUID userId) {
+        User user = userRepository.findByUserId(userId).orElseThrow(()-> new UserNotFoundException());
         List<Bouquet> bouquets = bouquetRepository.findAllByUser(user);
-        List<BouquetInfo> bouquetInfos = new ArrayList<>();
-        BouquetDesign bouquetDesign = getBouquetDesign(bouquets.get(0));
-        for(Bouquet bouquet : bouquets){
-            List<Flower> flowers = flowerRepository.findAllByBouquetId(bouquet);
-            List<FlowerInfo> flowerInfoList = flowers.stream()
-                    .map(FlowerInfo::fromEntity)
-                    .toList();
-            BouquetInfo bouquetInfo = new BouquetInfo(bouquet.getBouquetId(), flowerInfoList);
-            bouquetInfos.add(bouquetInfo);
+        if (bouquets.size() != 0) {
+            List<BouquetInfo> bouquetInfos = new ArrayList<>();
+            BouquetDesign bouquetDesign = getBouquetDesign(bouquets.get(0));
+            for (Bouquet bouquet : bouquets) {
+                List<Flower> flowers = flowerRepository.findAllByBouquetId(bouquet);
+                List<FlowerInfo> flowerInfoList = flowers.stream()
+                        .map(FlowerInfo::fromEntity)
+                        .toList();
+                BouquetInfo bouquetInfo = new BouquetInfo(bouquet.getBouquetId(), flowerInfoList);
+                bouquetInfos.add(bouquetInfo);
+            }
+            String description = user.getDescription();
+            LocalDateTime dDay = user.getDDay();
+            GetBouquetResponse getBouquetResponse = new GetBouquetResponse(description,dDay,bouquetDesign, bouquetInfos);
+            return getBouquetResponse;
+        } else {
+            GetBouquetResponse getBouquetResponse = new GetBouquetResponse(null,null,null, Collections.emptyList());
+            return getBouquetResponse;
         }
-        GetBouquetResponse getBouquetResponse = new GetBouquetResponse(bouquetDesign,bouquetInfos);
-        return getBouquetResponse;
     }
     public BouquetDesign getBouquetDesign(Bouquet bouquet) {
         BouquetDesign bouquetDesign = new BouquetDesign(bouquet.getWrapperType().getWrapperName()
