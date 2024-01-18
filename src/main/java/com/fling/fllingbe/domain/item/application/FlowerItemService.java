@@ -39,6 +39,7 @@ public class FlowerItemService {
                     .flowerItemId(flowerItem.getFlowerItemId())
                     .user(user)
                     .flowerType(flowerType)
+                    .owned(true)
                     .count(flowerItem.getCount() - 1)
                     .build();
             flowerItemRepository.save(newFlowerItem);
@@ -47,6 +48,7 @@ public class FlowerItemService {
                     .flowerItemId(flowerItem.getFlowerItemId())
                     .user(user)
                     .flowerType(flowerType)
+                    .owned(true)
                     .count(flowerItem.getCount())
                     .build();
             flowerItemRepository.save(newFlowerItem);

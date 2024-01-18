@@ -22,9 +22,9 @@ public class BouquetController {
         return ResponseEntity.ok().body("꽃다발 생성에 성공하였습니다.");
     }
 
-    @GetMapping("/bouquet")
-    public ResponseEntity<GetBouquetResponse> getBouquet(Authentication authentication) {
-        GetBouquetResponse getBouquetResponse = bouquetService.getBouquetResponse(authentication);
+    @GetMapping("/bouquet/{id}")
+    public ResponseEntity<GetBouquetResponse> getBouquet(@PathVariable(value = "id") UUID userId) {
+        GetBouquetResponse getBouquetResponse = bouquetService.getBouquetResponse(userId);
         return ResponseEntity.ok().body(getBouquetResponse);
     }
 
