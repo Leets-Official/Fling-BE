@@ -44,7 +44,6 @@ public class FlowerService {
             FlowerType flowerType = flowerItemService.minusFlowerItem(request, sender);
             CardType cardType = cardItemService.minusCardItem(request, sender);
             List<Flower> flowers = flowerRepository.findAllByReceiver(receiver);
-            System.out.println(flowers.size());
             Bouquet bouquet;
 
             if (flowers.size() % 5 == 0 && flowers.size() != 0) {
