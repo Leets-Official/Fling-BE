@@ -18,7 +18,7 @@ import java.util.List;
 public class DecoItemController {
     final private DecoItemService decoItemService;
 
-    @GetMapping(value = "/deco-item")
+    @GetMapping(value = "/decoitem")
     public ResponseEntity<List<DecoItemResponse>> getDecoItem(Authentication authentication) {
         List<DecoItemResponse> decoItemResponses = decoItemService.getDecoItem(authentication.getName());
         return ResponseEntity.ok().body(decoItemResponses);

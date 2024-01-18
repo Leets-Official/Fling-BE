@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FlowerItemController {
     private final FlowerItemService flowerItemService;
-    @GetMapping(value = "/flower-item")
+    @GetMapping(value = "/floweritem")
     public ResponseEntity<List<FlowerItemResponse>> getFlowerItem(Authentication authentication) {
         List<FlowerItemResponse> flowerItems = flowerItemService.getFlowerItem(authentication.getName());
         return ResponseEntity.ok().body(flowerItems);

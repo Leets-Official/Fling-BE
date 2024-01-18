@@ -21,7 +21,7 @@ public class ItemsController {
         return ResponseEntity.ok().body(getItemsResponse);
     }
 
-    @GetMapping("/bouquet-items")
+    @GetMapping("/bouquetitems")
     public ResponseEntity<BouquetItemResponse> getBouquetItems() {
         BouquetItemResponse bouquetItemResponse = itemsService.getBouquetItemResponse();
         return ResponseEntity.ok().body(bouquetItemResponse);

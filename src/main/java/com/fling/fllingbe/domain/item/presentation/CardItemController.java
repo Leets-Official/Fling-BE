@@ -19,7 +19,7 @@ import java.util.List;
 public class CardItemController {
     final private CardItemService cardItemService;
 
-    @GetMapping(value = "/card-item")
+    @GetMapping(value = "/carditem")
     public ResponseEntity<List<CardItemResponse>> getCardItem(Authentication authentication) {
         List<CardItemResponse> cardItems = cardItemService.getCardItem(authentication.getName());
         return ResponseEntity.ok().body(cardItems);
