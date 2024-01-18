@@ -17,7 +17,7 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping(value = "/login")
+    @PostMapping(value = "/login")
     public ResponseEntity<UserResponse> login(@RequestBody UserRequest request) throws Exception {
         return userService.login(request);
     }
@@ -27,12 +27,12 @@ public class UserController {
         return userService.register(request);
     }
 
-    @GetMapping(value = "/refresh")
+    @PostMapping(value = "/refresh")
     public ResponseEntity<JwtResponse> refresh(@RequestBody RefreshRequest request) throws Exception {
         return userService.tokenRefresh(request);
     }
 
-    @GetMapping(value = "/test-login")
+    @PostMapping(value = "/test-login")
     public ResponseEntity<UserResponse> testLogin(@RequestBody TestUserRequest request) throws Exception {
         return userService.testLogin(request);
     }
