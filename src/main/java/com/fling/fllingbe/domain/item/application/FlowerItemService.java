@@ -58,13 +58,15 @@ public class FlowerItemService {
     public void createDefaultFlowerItem(User user) {
         List<FlowerType> flowerItemList = flowerTypeRepository.findAll();
         for (FlowerType flowerType : flowerItemList) {
+            Long count = (flowerType.getPrice() == 0) ? -1L : 0L;
             FlowerItem flowerItem = FlowerItem.builder()
                     .user(user)
-                    .count(0L)
+                    .count(count)
                     .flowerType(flowerType)
                     .owned(flowerType.getPrice() == 0)
                     .build();
             flowerItemRepository.save(flowerItem);
+
         }
     }
 
