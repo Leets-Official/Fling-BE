@@ -1,5 +1,6 @@
 package com.fling.fllingbe.domain.bouquet.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fling.fllingbe.domain.bouquet.domain.Bouquet;
 import com.fling.fllingbe.domain.user.domain.User;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 public class GetBouquetResponse {
     private String description;
-    private LocalDateTime dDay;
+    @JsonProperty(value = "dDay")
+    private LocalDateTime dday;
     private BouquetDesign bouquetDesign;
     private List<BouquetInfo> bouquets;
 }
