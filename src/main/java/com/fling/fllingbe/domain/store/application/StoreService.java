@@ -17,6 +17,14 @@ import com.fling.fllingbe.domain.item.repository.DecoTypeRepository;
 import com.fling.fllingbe.domain.item.repository.FlowerItemRepository;
 import com.fling.fllingbe.domain.item.repository.FlowerTypeRepository;
 import com.fling.fllingbe.domain.store.dto.DecoPurchaseRequest;
+import com.fling.fllingbe.domain.item.domain.CardItem;
+import com.fling.fllingbe.domain.item.domain.CardType;
+import com.fling.fllingbe.domain.item.domain.FlowerItem;
+import com.fling.fllingbe.domain.item.domain.FlowerType;
+import com.fling.fllingbe.domain.item.exception.CardItemNotFoundException;
+import com.fling.fllingbe.domain.item.exception.CardTypeNotFoundException;
+import com.fling.fllingbe.domain.item.repository.*;
+import com.fling.fllingbe.domain.store.dto.CardPurchaseRequest;
 import com.fling.fllingbe.domain.store.dto.FlowerPurchaseRequest;
 import com.fling.fllingbe.domain.user.domain.User;
 import com.fling.fllingbe.domain.user.exception.UserNotFoundException;
@@ -31,6 +39,8 @@ public class StoreService {
     private final FlowerTypeRepository flowerTypeRepository;
     private final DecoItemRepository decoItemRepository;
     private final DecoTypeRepository decoTypeRepository;
+    private final CardItemRepository cardItemRepository;
+    private final CardTypeRepository cardTypeRepository;
     private final CoinRepository coinRepository;
     private final UserRepository userRepository;
 
@@ -74,5 +84,27 @@ public class StoreService {
 
         decoItem.setOwned(true);
         decoItemRepository.save(decoItem);
+    }
+    
+    public void purchaseCard(CardPurchaseRequest request, String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
+        CardType cardType = cardTypeRepository.findById(request.getCardId())
+                .orElseThrow(CardTypeNotFoundException::new);
+        CardItem cardItem = cardItemRepository.findByUserAndCardType(user, cardType)
+                .orElseThrow(CardItemNotFoundException::new);
+
+        Coin userCoin = coinRepository.findByUser(user).orElseThrow(CoinNotFoundException::new);
+        long totalCost = cardType.getPrice() * request.getCount();
+
+        if (userCoin.getCoin() < totalCost) {
+            throw new InsufficientCoinBalanceException();
+        }
+
+        userCoin.setCoin((int) (userCoin.getCoin() - totalCost));
+        coinRepository.save(userCoin);
+
+        cardItem.setCount(cardItem.getCount() + request.getCount());
+        cardItem.setOwned(true);
+        cardItemRepository.save(cardItem);
     }
 }
