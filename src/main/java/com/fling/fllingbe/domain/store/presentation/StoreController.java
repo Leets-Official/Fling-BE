@@ -2,6 +2,7 @@ package com.fling.fllingbe.domain.store.presentation;
 
 import com.fling.fllingbe.domain.item.application.DecoItemService;
 import com.fling.fllingbe.domain.store.application.StoreService;
+import com.fling.fllingbe.domain.store.dto.CardPurchaseRequest;
 import com.fling.fllingbe.domain.store.dto.DecoPurchaseRequest;
 import com.fling.fllingbe.domain.store.dto.FlowerPurchaseRequest;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +33,11 @@ public class StoreController {
     public ResponseEntity<Map<String, String>> purchaseDeco(Authentication authentication, @RequestBody DecoPurchaseRequest request) {
         storeService.purchaseDeco(request, authentication.getName());
         return new ResponseEntity<>(Map.of("message", "데코 구매를 성공했습니다."), HttpStatus.OK);
+    }
+
+    @PostMapping("/card")
+    public ResponseEntity<Map<String, String>> purchaseCard(Authentication authentication, @RequestBody CardPurchaseRequest request) {
+        storeService.purchaseCard(request, authentication.getName());
+        return new ResponseEntity<>(Map.of("message", "편지지 구매를 성공했습니다."), HttpStatus.OK);
     }
 }

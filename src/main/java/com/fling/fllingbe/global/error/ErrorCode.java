@@ -15,7 +15,9 @@ public enum ErrorCode {
     FLOWER_TYPE_NOT_FOUND(404, "FLOWER_TYPE_NOT_FOUND", "꽃 종류를 찾을 수 없습니다."),
     INSUFFICIENT_COIN_BALANCE(400, "INSUFFICIENT_COIN_BALANCE", "코인 잔액이 부족합니다."),
     DECO_TYPE_NOT_FOUND(404, "DECO_TYPE_NOT_FOUND", "데코 타입을 찾을 수 없습니다."),
-    DECO_ITEM_NOT_FOUND(404, "DECO_ITEM_NOT_FOUND", "데코 아이템을 찾을 수 없습니다.");
+    DECO_ITEM_NOT_FOUND(404, "DECO_ITEM_NOT_FOUND", "데코 아이템을 찾을 수 없습니다."),
+    CARD_TYPE_NOT_FOUND(404, "CARD_TYPE_NOT_FOUND", "카드 타입을 찾을 수 없습니다."),
+    CARD_ITEM_NOT_FOUND(404, "CARD_ITEM_NOT_FOUND", "카드 아이템을 찾을 수 없습니다.");
 
     private final int httpStatus;
     private final String code;
