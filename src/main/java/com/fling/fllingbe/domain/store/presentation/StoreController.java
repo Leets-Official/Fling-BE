@@ -19,7 +19,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class StoreController {
     private final StoreService storeService;
-    private final DecoItemService decoItemService;
 
     @PostMapping("/flower")
     public ResponseEntity<Map<String, String>> purchaseFlower(Authentication authentication, @RequestBody FlowerPurchaseRequest request) {
@@ -38,14 +37,10 @@ public class StoreController {
         storeService.purchaseCard(request, authentication.getName());
         return new ResponseEntity<>(Map.of("message", "편지지 구매를 성공했습니다."), HttpStatus.OK);
     }
-        @GetMapping
+
+    @GetMapping
     public ResponseEntity<StoreResponse> getStoreItems() {
-        try {
-            StoreResponse storeResponse = storeService.getStoreItems();
-            return new ResponseEntity<>(storeResponse, HttpStatus.OK);
-        } catch (Exception e) {
-            // You might want to log the exception here
-            return new ResponseEntity<>(new StoreResponse(), HttpStatus.BAD_REQUEST);
-        }
+        StoreResponse storeResponse = storeService.getStoreItems();
+        return new ResponseEntity<>(storeResponse, HttpStatus.OK);
     }
 }
