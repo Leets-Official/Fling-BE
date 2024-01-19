@@ -22,6 +22,7 @@ import com.fling.fllingbe.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -104,16 +105,19 @@ public class StoreService {
     public StoreResponse getStoreItems() {
         List<DecoType> decoTypes = decoTypeRepository.findAll();
         List<StoreResponse.DecoItemDTO> decoItems = decoTypes.stream()
+                .filter(deco -> deco.getPrice() > 0)
                 .map(deco -> new StoreResponse.DecoItemDTO(deco.getDecoTypeId(), deco.getDecoTypeName(), deco.getPrice()))
                 .collect(Collectors.toList());
 
         List<FlowerType> flowerTypes = flowerTypeRepository.findAll();
         List<StoreResponse.FlowerItemDTO> flowerItems = flowerTypes.stream()
+                .filter(flower -> flower.getPrice() > 0)
                 .map(flower -> new StoreResponse.FlowerItemDTO(flower.getFlowerTypeId(), flower.getFlowerName(), flower.getPrice()))
                 .collect(Collectors.toList());
 
         List<CardType> cardTypes = cardTypeRepository.findAll();
         List<StoreResponse.LetterItemDTO> letterItems = cardTypes.stream()
+                .filter(card -> card.getPrice() > 0)
                 .map(card -> new StoreResponse.LetterItemDTO(card.getCardTypeId(), card.getCardName(), card.getPrice()))
                 .collect(Collectors.toList());
 
