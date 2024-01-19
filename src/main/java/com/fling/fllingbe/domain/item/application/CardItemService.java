@@ -27,13 +27,14 @@ CardItemService {
     final UserRepository userRepository;
 
     public List<CardItemResponse> getCardItem(String userEmail) {
-        User user = userRepository.findByEmail(userEmail).orElseThrow(()->new UserNotFoundException());
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException());
         List<CardItem> cardItems = cardItemRepository.findByUser(user);
 
-        return  cardItems.stream()
+        return cardItems.stream()
                 .map(CardItemResponse::fromEntity)
                 .collect(Collectors.toList());
     }
+
     public CardType minusCardItem(FlowerRequest request, User user) {
         CardType cardType = cardTypeRepository.findByCardName(request.getCardType()).get();
         CardItem cardItem = cardItemRepository.findByUserAndCardType(user, cardType).get();
@@ -58,6 +59,7 @@ CardItemService {
         }
         return cardType;
     }
+
     public void createDefaultCardItem(User user) {
         List<CardType> cardTypeList = cardTypeRepository.findAll();
         for (CardType cardType : cardTypeList) {
