@@ -39,8 +39,8 @@ public class StoreController {
     }
 
     @GetMapping
-    public ResponseEntity<StoreResponse> getStoreItems() {
+    public ResponseEntity<Map<String, StoreResponse>> getStoreItems() {
         StoreResponse storeResponse = storeService.getStoreItems();
-        return new ResponseEntity<>(storeResponse, HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("storeResponse", storeResponse), HttpStatus.OK);
     }
 }
