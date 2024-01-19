@@ -108,6 +108,8 @@ public class StoreService {
                 .filter(deco -> deco.getPrice() > 0)
                 .map(deco -> new StoreResponse.DecoItemDTO(deco.getDecoTypeId(), deco.getDecoTypeName(), deco.getPrice()))
                 .collect(Collectors.toList());
+        Collections.shuffle(decoItems);
+        decoItems = decoItems.subList(0, Math.min(decoItems.size(), 3));
 
         List<FlowerType> flowerTypes = flowerTypeRepository.findAll();
         List<StoreResponse.FlowerItemDTO> flowerItems = flowerTypes.stream()
