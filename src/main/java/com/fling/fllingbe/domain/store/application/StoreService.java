@@ -43,6 +43,7 @@ public class StoreService {
         coinRepository.save(userCoin);
 
         flowerItem.setCount(flowerItem.getCount() + request.getCount());
+        flowerItem.setOwned(true);
         flowerItemRepository.save(flowerItem);
     }
 }
