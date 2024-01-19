@@ -5,14 +5,12 @@ import com.fling.fllingbe.domain.store.application.StoreService;
 import com.fling.fllingbe.domain.store.dto.CardPurchaseRequest;
 import com.fling.fllingbe.domain.store.dto.DecoPurchaseRequest;
 import com.fling.fllingbe.domain.store.dto.FlowerPurchaseRequest;
+import com.fling.fllingbe.domain.store.dto.StoreResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -39,5 +37,15 @@ public class StoreController {
     public ResponseEntity<Map<String, String>> purchaseCard(Authentication authentication, @RequestBody CardPurchaseRequest request) {
         storeService.purchaseCard(request, authentication.getName());
         return new ResponseEntity<>(Map.of("message", "편지지 구매를 성공했습니다."), HttpStatus.OK);
+    }
+        @GetMapping
+    public ResponseEntity<StoreResponse> getStoreItems() {
+        try {
+            StoreResponse storeResponse = storeService.getStoreItems();
+            return new ResponseEntity<>(storeResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            // You might want to log the exception here
+            return new ResponseEntity<>(new StoreResponse(), HttpStatus.BAD_REQUEST);
+        }
     }
 }
