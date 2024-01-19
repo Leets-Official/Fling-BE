@@ -15,11 +15,16 @@ import com.fling.fllingbe.domain.item.repository.*;
 import com.fling.fllingbe.domain.store.dto.CardPurchaseRequest;
 import com.fling.fllingbe.domain.store.dto.DecoPurchaseRequest;
 import com.fling.fllingbe.domain.store.dto.FlowerPurchaseRequest;
+import com.fling.fllingbe.domain.store.dto.StoreResponse;
 import com.fling.fllingbe.domain.user.domain.User;
 import com.fling.fllingbe.domain.user.exception.UserNotFoundException;
 import com.fling.fllingbe.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -95,5 +100,29 @@ public class StoreService {
         cardItem.setCount(cardItem.getCount() + request.getCount());
         cardItem.setOwned(true);
         cardItemRepository.save(cardItem);
+    }
+
+    public StoreResponse getStoreItems() {
+        List<DecoType> decoTypes = decoTypeRepository.findAll();
+        List<StoreResponse.DecoItemDTO> decoItems = decoTypes.stream()
+                .filter(deco -> deco.getPrice() > 0)
+                .map(deco -> new StoreResponse.DecoItemDTO(deco.getDecoTypeId(), deco.getDecoTypeName(), deco.getPrice()))
+                .collect(Collectors.toList());
+        Collections.shuffle(decoItems);
+        decoItems = decoItems.subList(0, Math.min(decoItems.size(), 3));
+
+        List<FlowerType> flowerTypes = flowerTypeRepository.findAll();
+        List<StoreResponse.FlowerItemDTO> flowerItems = flowerTypes.stream()
+                .filter(flower -> flower.getPrice() > 0)
+                .map(flower -> new StoreResponse.FlowerItemDTO(flower.getFlowerTypeId(), flower.getFlowerName(), flower.getPrice()))
+                .collect(Collectors.toList());
+
+        List<CardType> cardTypes = cardTypeRepository.findAll();
+        List<StoreResponse.LetterItemDTO> letterItems = cardTypes.stream()
+                .filter(card -> card.getPrice() > 0)
+                .map(card -> new StoreResponse.LetterItemDTO(card.getCardTypeId(), card.getCardName(), card.getPrice()))
+                .collect(Collectors.toList());
+
+        return new StoreResponse(decoItems, flowerItems, letterItems);
     }
 }
