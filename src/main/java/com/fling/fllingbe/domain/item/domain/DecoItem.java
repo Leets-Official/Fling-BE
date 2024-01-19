@@ -3,11 +3,9 @@ package com.fling.fllingbe.domain.item.domain;
 
 import com.fling.fllingbe.domain.user.domain.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Setter
 @Getter
 @Builder
 @NoArgsConstructor
