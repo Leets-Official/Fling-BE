@@ -15,21 +15,13 @@ import com.fling.fllingbe.domain.item.repository.*;
 import com.fling.fllingbe.domain.store.dto.CardPurchaseRequest;
 import com.fling.fllingbe.domain.store.dto.DecoPurchaseRequest;
 import com.fling.fllingbe.domain.store.dto.FlowerPurchaseRequest;
-import com.fling.fllingbe.domain.item.domain.CardType;
-import com.fling.fllingbe.domain.item.domain.DecoType;
-import com.fling.fllingbe.domain.item.domain.FlowerItem;
-import com.fling.fllingbe.domain.item.domain.FlowerType;
-import com.fling.fllingbe.domain.item.repository.CardTypeRepository;
-import com.fling.fllingbe.domain.item.repository.DecoTypeRepository;
-import com.fling.fllingbe.domain.item.repository.FlowerItemRepository;
-import com.fling.fllingbe.domain.item.repository.FlowerTypeRepository;
-import com.fling.fllingbe.domain.store.dto.FlowerPurchaseRequest;
 import com.fling.fllingbe.domain.store.dto.StoreResponse;
 import com.fling.fllingbe.domain.user.domain.User;
 import com.fling.fllingbe.domain.user.exception.UserNotFoundException;
 import com.fling.fllingbe.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -109,7 +101,7 @@ public class StoreService {
         cardItemRepository.save(cardItem);
     }
 
-        public StoreResponse getStoreItems() {
+    public StoreResponse getStoreItems() {
         List<DecoType> decoTypes = decoTypeRepository.findAll();
         List<StoreResponse.DecoItemDTO> decoItems = decoTypes.stream()
                 .map(deco -> new StoreResponse.DecoItemDTO(deco.getDecoTypeId(), deco.getDecoTypeName(), deco.getPrice()))
