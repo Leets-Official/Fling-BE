@@ -1,13 +1,12 @@
 package com.fling.fllingbe.domain.item.presentation;
 
 import com.fling.fllingbe.domain.item.application.DecoItemService;
-import com.fling.fllingbe.domain.item.dto.DecoItemResponse;
-import com.fling.fllingbe.domain.item.dto.GetItemById;
-import com.fling.fllingbe.domain.item.dto.GetItemResponse;
+import com.fling.fllingbe.domain.item.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,5 +27,11 @@ public class DecoItemController {
     public ResponseEntity<GetItemResponse> getDecoItemInfo(@RequestBody GetItemById request) {
         GetItemResponse getItemResponse = decoItemService.getDecoItemInfo(request);
         return ResponseEntity.ok().body(getItemResponse);
+    }
+
+    @PostMapping("/adddeco")
+    public ResponseEntity<String> addNewDecoItem(@RequestBody AddDecoItemRequest request) {
+        String response = decoItemService.addNewDecoItem(request);
+        return ResponseEntity.ok().body(response);
     }
 }
