@@ -2,13 +2,12 @@ package com.fling.fllingbe.domain.item.presentation;
 
 
 import com.fling.fllingbe.domain.item.application.CardItemService;
-import com.fling.fllingbe.domain.item.dto.CardItemResponse;
-import com.fling.fllingbe.domain.item.dto.GetItemById;
-import com.fling.fllingbe.domain.item.dto.GetItemResponse;
+import com.fling.fllingbe.domain.item.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,5 +28,11 @@ public class CardItemController {
     public ResponseEntity<GetItemResponse> getCardItemInfo(@RequestBody GetItemById getItemById) {
         GetItemResponse getItemResponse = cardItemService.getCardItemInfo(getItemById);
         return ResponseEntity.ok().body(getItemResponse);
+    }
+
+    @PostMapping("/addcard")
+    public ResponseEntity<String> addNewCardItem(@RequestBody AddCardItemRequest request) {
+        String response = cardItemService.addNewCardItem(request);
+        return ResponseEntity.ok().body(response);
     }
 }
