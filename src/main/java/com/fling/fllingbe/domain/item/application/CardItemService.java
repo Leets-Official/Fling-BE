@@ -4,9 +4,9 @@ package com.fling.fllingbe.domain.item.application;
 import com.fling.fllingbe.domain.flower.dto.FlowerRequest;
 import com.fling.fllingbe.domain.item.domain.CardItem;
 import com.fling.fllingbe.domain.item.domain.CardType;
-import com.fling.fllingbe.domain.item.dto.CardItemResponse;
-import com.fling.fllingbe.domain.item.dto.GetItemById;
-import com.fling.fllingbe.domain.item.dto.GetItemResponse;
+import com.fling.fllingbe.domain.item.domain.FlowerItem;
+import com.fling.fllingbe.domain.item.domain.FlowerType;
+import com.fling.fllingbe.domain.item.dto.*;
 import com.fling.fllingbe.domain.item.repository.CardItemRepository;
 import com.fling.fllingbe.domain.item.repository.CardTypeRepository;
 import com.fling.fllingbe.domain.user.domain.User;
@@ -81,5 +81,26 @@ CardItemService {
                 .description(cardType.getDescription())
                 .build();
         return getItemResponse;
+    }
+    public String addNewCardItem(AddCardItemRequest request) {
+        CardType cardType = CardType.builder()
+                .cardName(request.getCardType())
+                .description(request.getDescription())
+                .price(request.getPrice())
+                .build();
+        cardTypeRepository.save(cardType);
+        List<User> userList = userRepository.findAll();
+        CardType newCardType = cardTypeRepository.findByCardName(request.getCardType()).get();
+        Long count = (newCardType.getPrice() == 0)? -1L : 0L;
+        for (User user : userList) {
+            CardItem cardItem = CardItem.builder()
+                    .user(user)
+                    .cardType(newCardType)
+                    .count(count)
+                    .owned(newCardType.getPrice() == 0)
+                    .build();
+            cardItemRepository.save(cardItem);
+        }
+        return "아이템 추가가 완료되었습니다.";
     }
 }

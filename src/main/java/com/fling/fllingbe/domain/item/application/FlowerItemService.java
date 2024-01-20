@@ -3,6 +3,7 @@ package com.fling.fllingbe.domain.item.application;
 import com.fling.fllingbe.domain.flower.dto.FlowerRequest;
 import com.fling.fllingbe.domain.item.domain.FlowerItem;
 import com.fling.fllingbe.domain.item.domain.FlowerType;
+import com.fling.fllingbe.domain.item.dto.AddFlowerItemRequest;
 import com.fling.fllingbe.domain.item.dto.FlowerItemResponse;
 import com.fling.fllingbe.domain.item.dto.GetItemById;
 import com.fling.fllingbe.domain.item.dto.GetItemResponse;
@@ -77,5 +78,27 @@ public class FlowerItemService {
                 .description(flowerType.getDescription())
                 .build();
         return getItemResponse;
+    }
+
+    public String addNewFlowerItem(AddFlowerItemRequest request) {
+        FlowerType flowerType = FlowerType.builder()
+                .flowerName(request.getFlowerType())
+                .description(request.getDescription())
+                .price(request.getPrice())
+                .build();
+        flowerTypeRepository.save(flowerType);
+        List<User> userList = userRepository.findAll();
+        FlowerType newFlowerType = flowerTypeRepository.findByFlowerName(request.getFlowerType()).get();
+        Long count = (newFlowerType.getPrice() == 0)? -1L : 0L;
+        for (User user : userList) {
+            FlowerItem flowerItem = FlowerItem.builder()
+                    .user(user)
+                    .flowerType(newFlowerType)
+                    .count(count)
+                    .owned(newFlowerType.getPrice() == 0)
+                    .build();
+            flowerItemRepository.save(flowerItem);
+        }
+        return "아이템 추가가 완료되었습니다.";
     }
 }

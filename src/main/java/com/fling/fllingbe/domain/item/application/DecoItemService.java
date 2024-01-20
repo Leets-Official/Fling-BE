@@ -1,11 +1,11 @@
 package com.fling.fllingbe.domain.item.application;
 
 import com.fling.fllingbe.domain.bouquet.dto.UpdateBouquetRequest;
+import com.fling.fllingbe.domain.item.domain.CardItem;
+import com.fling.fllingbe.domain.item.domain.CardType;
 import com.fling.fllingbe.domain.item.domain.DecoItem;
 import com.fling.fllingbe.domain.item.domain.DecoType;
-import com.fling.fllingbe.domain.item.dto.DecoItemResponse;
-import com.fling.fllingbe.domain.item.dto.GetItemById;
-import com.fling.fllingbe.domain.item.dto.GetItemResponse;
+import com.fling.fllingbe.domain.item.dto.*;
 import com.fling.fllingbe.domain.item.repository.DecoItemRepository;
 import com.fling.fllingbe.domain.item.repository.DecoTypeRepository;
 import com.fling.fllingbe.domain.user.domain.User;
@@ -99,5 +99,26 @@ public class DecoItemService {
                 .description(decoType.getDescription())
                 .build();
         return getItemResponse;
+    }
+
+    public String addNewDecoItem(AddDecoItemRequest request) {
+        DecoType decoType = DecoType.builder()
+                .decoTypeName(request.getDecoType())
+                .description(request.getDescription())
+                .price(request.getPrice())
+                .build();
+        decoTypeRepository.save(decoType);
+        List<User> userList = userRepository.findAll();
+        DecoType newDecoType = decoTypeRepository.findByDecoTypeName(request.getDecoType()).get();
+        for (User user : userList) {
+            DecoItem decoItem = DecoItem.builder()
+                    .user(user)
+                    .decoType(newDecoType)
+                    .isUsing(false)
+                    .owned(newDecoType.getPrice() == 0)
+                    .build();
+            decoItemRepository.save(decoItem);
+        }
+        return "아이템 추가가 완료되었습니다.";
     }
 }

@@ -74,6 +74,9 @@ public class UserService {
                 .build();
         userRepository.save(user);
         coinRepository.save(coin);
+        flowerItemService.createDefaultFlowerItem(user);
+        decoItemService.createDefaultDecoItem(user);
+        cardItemService.createDefaultCardItem(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
