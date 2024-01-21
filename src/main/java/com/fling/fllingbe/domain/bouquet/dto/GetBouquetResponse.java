@@ -16,7 +16,7 @@ import java.util.List;
 public class GetBouquetResponse {
     private String description;
     @JsonProperty(value = "dDay")
-    private LocalDateTime dday;
+    private String dday;
     private BouquetDesign bouquetDesign;
     private List<BouquetInfo> bouquets;
 }

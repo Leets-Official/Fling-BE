@@ -29,7 +29,7 @@ public class User extends BaseTimeEntity {
     private String nickname;
 
     @Column
-    private LocalDateTime dDay;
+    private String dDay;
 
     @Column
     private String description;

@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<Void> register(@RequestBody UserRequest request) throws Exception {
+    public ResponseEntity<UserResponse> register(@RequestBody UserRequest request) throws Exception {
         return userService.register(request);
     }
 
@@ -38,10 +38,22 @@ public class UserController {
     }
 
     @PostMapping(value = "/test-register")
-    public ResponseEntity<Void> testRegister(@RequestBody TestUserRequest request) throws Exception {
+    public ResponseEntity<UserResponse> testRegister(@RequestBody TestUserRequest request) throws Exception {
         return userService.testRegister(request);
     }
 
+    @GetMapping(value = "/by-id/{id}")
+    public ResponseEntity<UserInfoResponse> findUserById(@PathVariable UUID id) throws Exception {
+        return userService.findUserById(id);
+    }
+    @GetMapping(value = "/by-email/{email}")
+    public ResponseEntity<UserInfoResponse> findUserByEmail(@PathVariable String email) throws Exception {
+        return userService.findUserByEmail(email);
+    }
+    @GetMapping(value = "/by-token")
+    public ResponseEntity<UserInfoResponse> findUserByToken(Authentication authentication) throws Exception {
+        return userService.findUserByEmail(authentication.getName());
+    }
     @PatchMapping(value = "/nickname")
     public ResponseEntity<Void> setNickname(@RequestBody NicknameRequest request, Authentication authentication) throws Exception {
         return userService.setNickname(request, authentication.getName());

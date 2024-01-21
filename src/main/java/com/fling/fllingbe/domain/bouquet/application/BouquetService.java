@@ -92,7 +92,7 @@ public class BouquetService {
                 bouquetInfos.add(bouquetInfo);
             }
             String description = user.getDescription();
-            LocalDateTime dDay = user.getDDay();
+            String dDay = user.getDDay();
             GetBouquetResponse getBouquetResponse = new GetBouquetResponse(description,dDay,bouquetDesign, bouquetInfos);
             return getBouquetResponse;
         } else {
