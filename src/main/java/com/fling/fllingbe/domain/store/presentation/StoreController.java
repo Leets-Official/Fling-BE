@@ -43,8 +43,8 @@ public class StoreController {
     }
 
     @GetMapping
-    public ResponseDto<Map<String, StoreResponse>> getStoreItems() {
+    public ResponseDto<StoreResponse> getStoreItems() {
         StoreResponse storeResponse = storeService.getStoreItems();
-        return ResponseDto.of(OK.value(), SUCCESS_READ.getMessage());
+        return ResponseDto.of(OK.value(), SUCCESS_READ.getMessage(),storeResponse);
     }
 }
