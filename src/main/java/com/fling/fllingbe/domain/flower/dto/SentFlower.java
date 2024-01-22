@@ -12,13 +12,13 @@ import lombok.Getter;
 public class SentFlower {
     private Long flowerId;
     private String receiver;
-    private String letterType;
+    private String flowerType;
 
     public static SentFlower fromEntity(Flower flower) {
         SentFlower sentFlower = SentFlower.builder()
                 .flowerId(flower.getFlowerId())
                 .receiver(flower.getReceiver().getNickname())
-                .letterType(flower.getCardType().getCardName())
+                .flowerType(flower.getFlowerType().getFlowerName())
                 .build();
         return sentFlower;
     }
