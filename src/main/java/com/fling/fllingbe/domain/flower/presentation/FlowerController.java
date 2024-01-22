@@ -30,8 +30,8 @@ public class FlowerController {
     }
 
     @GetMapping(value = "/letter-sent")
-    public ResponseDto<List<SentFlower>> getSendedFlower(Authentication authentication) {
-        List<SentFlower> sentFlowerList = flowerService.getSendedFlower(authentication.getName());
+    public ResponseDto<List<SentFlower>> getSentFlower(Authentication authentication) {
+        List<SentFlower> sentFlowerList = flowerService.getSentFlower(authentication.getName());
         return ResponseDto.of(OK.value(), SUCCESS_READ_SENT_FLOWER.getMessage(),sentFlowerList);
     }
 
@@ -42,7 +42,7 @@ public class FlowerController {
     }
 
     @GetMapping(value = "/flower")
-    public ResponseDto<GetLetter> getLetter(@RequestBody GetItemById request) {
+    public ResponseDto<GetLetter> getLetter(@RequestParam(value = "id") Long request) {
         GetLetter getLetter = flowerService.getLetter(request);
         return ResponseDto.of(OK.value(), SUCCESS_READ_LETTER.getMessage(),getLetter);
     }

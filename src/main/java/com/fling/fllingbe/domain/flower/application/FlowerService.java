@@ -69,7 +69,7 @@ public class FlowerService {
         }
     }
 
-    public List<SentFlower> getSendedFlower(String userEmail) {
+    public List<SentFlower> getSentFlower(String userEmail) {
         User user = userRepository.findByEmail(userEmail).orElseThrow(()->new UserNotFoundException());
         List<Flower> flowerList = flowerRepository.findAllBySender(user);
         List<SentFlower> sentFlowerList = flowerList.stream().map(SentFlower::fromEntity).toList();
@@ -83,8 +83,8 @@ public class FlowerService {
         return receivedFlowerList;
     }
 
-    public GetLetter getLetter(GetItemById request) {
-        Flower flower = flowerRepository.findById(request.getId()).get();
+    public GetLetter getLetter(Long request) {
+        Flower flower = flowerRepository.findById(request).get();
         GetLetter getLetter = GetLetter.builder()
                 .letter(flower.getLetter())
                 .flowerType(flower.getFlowerType().getFlowerName())
