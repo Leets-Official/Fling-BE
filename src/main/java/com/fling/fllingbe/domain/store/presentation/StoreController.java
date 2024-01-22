@@ -6,6 +6,7 @@ import com.fling.fllingbe.domain.store.dto.CardPurchaseRequest;
 import com.fling.fllingbe.domain.store.dto.DecoPurchaseRequest;
 import com.fling.fllingbe.domain.store.dto.FlowerPurchaseRequest;
 import com.fling.fllingbe.domain.store.dto.StoreResponse;
+import com.fling.fllingbe.global.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+import static com.fling.fllingbe.domain.store.presentation.constant.ResponseMessage.*;
+import static org.springframework.http.HttpStatus.OK;
+
 @RestController
 @RequestMapping("/store")
 @RequiredArgsConstructor
@@ -21,26 +25,26 @@ public class StoreController {
     private final StoreService storeService;
 
     @PostMapping("/flower")
-    public ResponseEntity<Map<String, String>> purchaseFlower(Authentication authentication, @RequestBody FlowerPurchaseRequest request) {
+    public ResponseDto<Map<String, String>> purchaseFlower(Authentication authentication, @RequestBody FlowerPurchaseRequest request) {
         storeService.purchaseFlower(request, authentication.getName());
-        return new ResponseEntity<>(Map.of("message", "꽃 구매를 성공했습니다."), HttpStatus.OK);
+        return ResponseDto.of(OK.value(), SUCCESS_BUY_FLOWER.getMessage());
     }
 
     @PostMapping("/deco")
-    public ResponseEntity<Map<String, String>> purchaseDeco(Authentication authentication, @RequestBody DecoPurchaseRequest request) {
+    public ResponseDto<Map<String, String>> purchaseDeco(Authentication authentication, @RequestBody DecoPurchaseRequest request) {
         storeService.purchaseDeco(request, authentication.getName());
-        return new ResponseEntity<>(Map.of("message", "데코 구매를 성공했습니다."), HttpStatus.OK);
+        return ResponseDto.of(OK.value(), SUCCESS_BUY_DECO.getMessage());
     }
 
     @PostMapping("/card")
-    public ResponseEntity<Map<String, String>> purchaseCard(Authentication authentication, @RequestBody CardPurchaseRequest request) {
+    public ResponseDto<Map<String, String>> purchaseCard(Authentication authentication, @RequestBody CardPurchaseRequest request) {
         storeService.purchaseCard(request, authentication.getName());
-        return new ResponseEntity<>(Map.of("message", "편지지 구매를 성공했습니다."), HttpStatus.OK);
+        return ResponseDto.of(OK.value(), SUCCESS_BUY_CARD.getMessage());
     }
 
     @GetMapping
-    public ResponseEntity<Map<String, StoreResponse>> getStoreItems() {
+    public ResponseDto<Map<String, StoreResponse>> getStoreItems() {
         StoreResponse storeResponse = storeService.getStoreItems();
-        return new ResponseEntity<>(Map.of("storeResponse", storeResponse), HttpStatus.OK);
+        return ResponseDto.of(OK.value(), SUCCESS_READ.getMessage());
     }
 }
