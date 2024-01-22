@@ -57,10 +57,10 @@ public class UserService {
                     .build();
             return new ResponseEntity<>(signResponse, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    public ResponseEntity<Void> register(UserRequest request) throws Exception {
+    public ResponseEntity<UserResponse> register(UserRequest request) throws Exception {
         String email = getEmail(request.getAccessToken());
         if (userRepository.existsByEmail(email))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -77,7 +77,18 @@ public class UserService {
         flowerItemService.createDefaultFlowerItem(user);
         decoItemService.createDefaultDecoItem(user);
         cardItemService.createDefaultCardItem(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        JwtResponse tokenDto = new JwtResponse(
+                jwtProvider.createAccessToken(user.getEmail()),
+                jwtProvider.createRefreshToken(user.getEmail())
+        );
+        UserResponse signResponse = UserResponse.builder()
+                .userId(user.getUserId())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .token(tokenDto)
+                .build();
+        return new ResponseEntity<>(signResponse, HttpStatus.OK);
     }
 
     public ResponseEntity<JwtResponse> tokenRefresh(RefreshRequest request) throws Exception {
@@ -147,10 +158,10 @@ public class UserService {
                     .build();
             return new ResponseEntity<>(signResponse, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    public ResponseEntity<Void> testRegister(TestUserRequest request) throws Exception {
+    public ResponseEntity<UserResponse> testRegister(TestUserRequest request) throws Exception {
         if (userRepository.existsByEmail(request.getEmail()))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         User user = User.builder()
@@ -166,7 +177,50 @@ public class UserService {
         flowerItemService.createDefaultFlowerItem(user);
         decoItemService.createDefaultDecoItem(user);
         cardItemService.createDefaultCardItem(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        JwtResponse tokenDto = new JwtResponse(
+                jwtProvider.createAccessToken(user.getEmail()),
+                jwtProvider.createRefreshToken(user.getEmail())
+        );
+        UserResponse signResponse = UserResponse.builder()
+                .userId(user.getUserId())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .token(tokenDto)
+                .build();
+        return new ResponseEntity<>(signResponse, HttpStatus.OK);
+    }
+
+    public ResponseEntity<UserInfoResponse> findUserById(UUID id) throws Exception {
+        if (!userRepository.existsById(id))
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        User user = userRepository.findById(id).get();
+        Coin coin = coinRepository.findByUser(user).get();
+        UserInfoResponse userInfoResponse = UserInfoResponse.builder()
+                .userId(user.getUserId())
+                .nickname(user.getNickname())
+                .email(user.getEmail())
+                .dDay(user.getDDay())
+                .description(user.getDescription())
+                .coin(coin.getCoin())
+                .build();
+        return new ResponseEntity<>(userInfoResponse, HttpStatus.OK);
+    }
+
+    public ResponseEntity<UserInfoResponse> findUserByEmail(String email) throws Exception {
+        if (!userRepository.existsByEmail(email))
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        User user = userRepository.findByEmail(email).get();
+        Coin coin = coinRepository.findByUser(user).get();
+        UserInfoResponse userInfoResponse = UserInfoResponse.builder()
+                .userId(user.getUserId())
+                .nickname(user.getNickname())
+                .email(user.getEmail())
+                .dDay(user.getDDay())
+                .description(user.getDescription())
+                .coin(coin.getCoin())
+                .build();
+        return new ResponseEntity<>(userInfoResponse, HttpStatus.OK);
     }
 
     public ResponseEntity<Void> setNickname(NicknameRequest request, String email) throws Exception {

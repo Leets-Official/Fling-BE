@@ -8,6 +8,6 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 public class CongratulateeDto {
-    private LocalDateTime dDay;
+    private String dDay;
     private String description;
 }

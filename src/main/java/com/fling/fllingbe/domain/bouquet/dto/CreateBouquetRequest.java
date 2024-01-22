@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 public class CreateBouquetRequest {
-    private LocalDateTime dDay;
+    private String dDay;
     private String bouquetName;
     private String wrapper;
     private String ribbon;
