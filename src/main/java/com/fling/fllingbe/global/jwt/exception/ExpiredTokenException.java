@@ -5,6 +5,6 @@ import com.fling.fllingbe.global.error.ErrorCode;
 
 public class ExpiredTokenException extends ServiceException {
     public ExpiredTokenException() {
-        super(ErrorCode.EXPIRED_TOKEN);
+        super(ErrorCode.EXPIRED_TOKEN.getHttpStatus());
     }
 }

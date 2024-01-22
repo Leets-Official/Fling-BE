@@ -7,6 +7,8 @@ import com.fling.fllingbe.domain.item.application.DecoItemService;
 import com.fling.fllingbe.domain.item.application.FlowerItemService;
 import com.fling.fllingbe.domain.user.domain.User;
 import com.fling.fllingbe.domain.user.dto.*;
+import com.fling.fllingbe.domain.user.exception.UserConflictException;
+import com.fling.fllingbe.domain.user.exception.UserNotFoundException;
 import com.fling.fllingbe.domain.user.repository.UserRepository;
 import com.fling.fllingbe.global.jwt.JwtProvider;
 import com.fling.fllingbe.global.jwt.presentation.JwtResponse;
@@ -41,7 +43,7 @@ public class UserService {
     private final CardItemService cardItemService;
     private final JwtProvider jwtProvider;
 
-    public ResponseEntity<UserResponse> login(UserRequest request) throws Exception {
+    public UserResponse login(UserRequest request) throws Exception {
         String email = getEmail(request.getAccessToken());
         if (userRepository.existsByEmail(email)) {
             User user = userRepository.findByEmail(email).get();
@@ -55,15 +57,15 @@ public class UserService {
                     .nickname(user.getNickname())
                     .token(tokenDto)
                     .build();
-            return new ResponseEntity<>(signResponse, HttpStatus.OK);
+            return signResponse;
         }
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        throw new UserNotFoundException();
     }
 
-    public ResponseEntity<UserResponse> register(UserRequest request) throws Exception {
+    public UserResponse register(UserRequest request) throws Exception {
         String email = getEmail(request.getAccessToken());
         if (userRepository.existsByEmail(email))
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            throw new UserConflictException();
         User user = User.builder()
                 .email(email)
                 .nickname(request.getNickname())
@@ -88,13 +90,13 @@ public class UserService {
                 .nickname(user.getNickname())
                 .token(tokenDto)
                 .build();
-        return new ResponseEntity<>(signResponse, HttpStatus.OK);
+        return signResponse;
     }
 
-    public ResponseEntity<JwtResponse> tokenRefresh(RefreshRequest request) throws Exception {
+    public JwtResponse tokenRefresh(RefreshRequest request) throws Exception {
         if (isUsingRefreshToken) {
             JwtResponse jwtResponse = jwtProvider.reissueToken(request);
-            return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
+            return jwtResponse;
         }
         return null;
     }
@@ -139,7 +141,7 @@ public class UserService {
     }
 
 
-    public ResponseEntity<UserResponse> testLogin(TestUserRequest request) throws Exception {
+    public UserResponse testLogin(TestUserRequest request) throws Exception {
         if (userRepository.existsByEmail(request.getEmail())) {
             User user = userRepository.findByEmail(request.getEmail()).get();
             JwtResponse tokenDto = new JwtResponse(
@@ -156,14 +158,14 @@ public class UserService {
                     .nickname(user.getNickname())
                     .token(tokenDto)
                     .build();
-            return new ResponseEntity<>(signResponse, HttpStatus.OK);
+            return signResponse;
         }
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        throw new UserNotFoundException();
     }
 
-    public ResponseEntity<UserResponse> testRegister(TestUserRequest request) throws Exception {
+    public UserResponse testRegister(TestUserRequest request) throws Exception {
         if (userRepository.existsByEmail(request.getEmail()))
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            throw new UserConflictException();
         User user = User.builder()
                 .email(request.getEmail())
                 .nickname(request.getNickname())
@@ -188,12 +190,12 @@ public class UserService {
                 .nickname(user.getNickname())
                 .token(tokenDto)
                 .build();
-        return new ResponseEntity<>(signResponse, HttpStatus.OK);
+        return signResponse;
     }
 
-    public ResponseEntity<UserInfoResponse> findUserById(UUID id) throws Exception {
+    public UserInfoResponse findUserById(UUID id) throws Exception {
         if (!userRepository.existsById(id))
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new UserNotFoundException();
         User user = userRepository.findById(id).get();
         Coin coin = coinRepository.findByUser(user).get();
         UserInfoResponse userInfoResponse = UserInfoResponse.builder()
@@ -204,12 +206,12 @@ public class UserService {
                 .description(user.getDescription())
                 .coin(coin.getCoin())
                 .build();
-        return new ResponseEntity<>(userInfoResponse, HttpStatus.OK);
+        return userInfoResponse;
     }
 
-    public ResponseEntity<UserInfoResponse> findUserByEmail(String email) throws Exception {
+    public UserInfoResponse findUserByEmail(String email) throws Exception {
         if (!userRepository.existsByEmail(email))
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new UserNotFoundException();
         User user = userRepository.findByEmail(email).get();
         Coin coin = coinRepository.findByUser(user).get();
         UserInfoResponse userInfoResponse = UserInfoResponse.builder()
@@ -220,43 +222,40 @@ public class UserService {
                 .description(user.getDescription())
                 .coin(coin.getCoin())
                 .build();
-        return new ResponseEntity<>(userInfoResponse, HttpStatus.OK);
+        return userInfoResponse;
     }
 
-    public ResponseEntity<Void> setNickname(NicknameRequest request, String email) throws Exception {
+    public void setNickname(NicknameRequest request, String email) throws Exception {
         if (!userRepository.existsByEmail(email))
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new UserNotFoundException();
         User user = userRepository.findByEmail(email).get();
         user.setNickname(request.getNickname());
         userRepository.save(user);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> setCongratulateeInfo(CongratulateeDto request, String email) throws Exception {
+    public void setCongratulateeInfo(CongratulateeDto request, String email) throws Exception {
         if (!userRepository.existsByEmail(email))
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new UserNotFoundException();
         User user = userRepository.findByEmail(email).get();
         user.setDDay(request.getDDay());
         user.setDescription(request.getDescription());
         userRepository.save(user);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public ResponseEntity<CongratulateeDto> getCongratulateeInfo(UUID id) throws Exception {
+    public CongratulateeDto getCongratulateeInfo(UUID id) throws Exception {
         if (!userRepository.existsByUserId(id))
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new UserNotFoundException();
         User user = userRepository.findByUserId(id).get();
         CongratulateeDto congratulateeDto = CongratulateeDto.builder()
                 .dDay(user.getDDay())
                 .description(user.getDescription())
                 .build();
-        return new ResponseEntity<>(congratulateeDto, HttpStatus.OK);
+        return congratulateeDto;
     }
 
-    public ResponseEntity<Void> delUser(String email) throws Exception {
+    public void delUser(String email) throws Exception {
         if (!userRepository.existsByEmail(email))
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new UserNotFoundException();
         userRepository.deleteByEmail(email);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

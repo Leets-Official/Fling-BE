@@ -5,6 +5,6 @@ import com.fling.fllingbe.global.error.exception.ServiceException;
 
 public class InsufficientCoinBalanceException extends ServiceException {
     public InsufficientCoinBalanceException() {
-        super(ErrorCode.INSUFFICIENT_COIN_BALANCE);
+        super(ErrorCode.INSUFFICIENT_COIN_BALANCE.getHttpStatus(),ErrorCode.INSUFFICIENT_COIN_BALANCE.getMessage());
     }
 }
