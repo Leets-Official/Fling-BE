@@ -21,9 +21,10 @@ public class RandomDecoSetter{
     private final RedisTemplate<String, String> redisTemplate;
     private final UserRepository userRepository;
     private final DecoItemRepository decoItemRepository;
+
     public static final Long ExpiratoinTime = 1108000000L;
     Random random = new Random();
-    @Scheduled(cron = "0 15 21 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
     public void setAllUser(){
         List<User> userList= userRepository.findAllBy();
         for (User user : userList) {
