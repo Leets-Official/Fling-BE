@@ -92,8 +92,8 @@ public class DecoItemService {
             decoItemRepository.save(decoItem);
         }
     }
-    public GetItemResponse getDecoItemInfo(GetItemById request) {
-        DecoType decoType = decoTypeRepository.findById(request.getId()).get();
+    public GetItemResponse getDecoItemInfo(Long id) {
+        DecoType decoType = decoTypeRepository.findById(id).get();
         GetItemResponse getItemResponse = GetItemResponse.builder()
                 .itemName(decoType.getDecoTypeName())
                 .description(decoType.getDescription())

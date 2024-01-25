@@ -9,10 +9,7 @@ import com.fling.fllingbe.global.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,8 +28,8 @@ public class FlowerItemController {
     }
 
     @GetMapping("/floweritem-info")
-    public ResponseDto<GetItemResponse> getFlowerItemInfo(@RequestBody GetItemById request) {
-        GetItemResponse getItemResponse = flowerItemService.getFlowerItemInfo(request);
+    public ResponseDto<GetItemResponse> getFlowerItemInfo(@RequestParam Long id) {
+        GetItemResponse getItemResponse = flowerItemService.getFlowerItemInfo(id);
         return ResponseDto.of(OK.value(), SUCCESS_READ_FLOWER_INFO.getMessage(),getItemResponse);
     }
 

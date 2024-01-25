@@ -6,10 +6,7 @@ import com.fling.fllingbe.global.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,8 +25,8 @@ public class DecoItemController {
     }
 
     @GetMapping(value = "/decoitem-info")
-    public ResponseDto<GetItemResponse> getDecoItemInfo(@RequestBody GetItemById request) {
-        GetItemResponse getItemResponse = decoItemService.getDecoItemInfo(request);
+    public ResponseDto<GetItemResponse> getDecoItemInfo(@RequestParam Long id) {
+        GetItemResponse getItemResponse = decoItemService.getDecoItemInfo(id);
         return ResponseDto.of(OK.value(), SUCCESS_READ_DECO_INFO.getMessage(),getItemResponse);
     }
 

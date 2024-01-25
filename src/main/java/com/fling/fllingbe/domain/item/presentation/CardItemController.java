@@ -7,10 +7,7 @@ import com.fling.fllingbe.global.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,8 +26,8 @@ public class CardItemController {
     }
 
     @GetMapping(value = "/carditem-info")
-    public ResponseDto<GetItemResponse> getCardItemInfo(@RequestBody GetItemById getItemById) {
-        GetItemResponse getItemResponse = cardItemService.getCardItemInfo(getItemById);
+    public ResponseDto<GetItemResponse> getCardItemInfo(@RequestParam Long id) {
+        GetItemResponse getItemResponse = cardItemService.getCardItemInfo(id);
         return ResponseDto.of(OK.value(), SUCCESS_READ_CARD_INFO.getMessage(),getItemResponse);
     }
 

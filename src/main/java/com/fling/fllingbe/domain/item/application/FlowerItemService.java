@@ -71,8 +71,8 @@ public class FlowerItemService {
         }
     }
 
-    public GetItemResponse getFlowerItemInfo(GetItemById request) {
-        FlowerType flowerType = flowerTypeRepository.findById(request.getId()).get();
+    public GetItemResponse getFlowerItemInfo(Long id) {
+        FlowerType flowerType = flowerTypeRepository.findById(id).get();
         GetItemResponse getItemResponse = GetItemResponse.builder()
                 .itemName(flowerType.getFlowerName())
                 .description(flowerType.getDescription())

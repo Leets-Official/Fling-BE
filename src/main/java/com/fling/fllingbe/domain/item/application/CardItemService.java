@@ -74,8 +74,8 @@ CardItemService {
         }
     }
 
-    public GetItemResponse getCardItemInfo(GetItemById getItemById) {
-        CardType cardType = cardTypeRepository.findById(getItemById.getId()).get();
+    public GetItemResponse getCardItemInfo(Long id) {
+        CardType cardType = cardTypeRepository.findById(id).get();
         GetItemResponse getItemResponse = GetItemResponse.builder()
                 .itemName(cardType.getCardName())
                 .description(cardType.getDescription())
