@@ -20,8 +20,10 @@ import com.fling.fllingbe.domain.user.domain.User;
 import com.fling.fllingbe.domain.user.exception.UserNotFoundException;
 import com.fling.fllingbe.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +31,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class StoreService {
+    private final RedisTemplate<String, String> redisTemplate;
     private final FlowerItemRepository flowerItemRepository;
     private final FlowerTypeRepository flowerTypeRepository;
     private final DecoItemRepository decoItemRepository;
@@ -101,15 +104,21 @@ public class StoreService {
         cardItem.setOwned(true);
         cardItemRepository.save(cardItem);
     }
-
-    public StoreResponse getStoreItems() {
-        List<DecoType> decoTypes = decoTypeRepository.findAll();
+    public StoreResponse getStoreItems(String email) {
+        List<DecoType> decoTypes = new ArrayList<>();
+        for(int number = 0 ; number < 3 ; number++ ){
+            String randomDecoTypeId = redisTemplate.opsForValue().get(email+"_"+number);
+            DecoType decoType;
+            if(randomDecoTypeId == null){
+                decoType = decoTypeRepository.findById(1L).get();
+            }else{
+                decoType = decoTypeRepository.findById(Long.parseLong(randomDecoTypeId)).get();
+            }
+            decoTypes.add(decoType);
+        }
         List<StoreResponse.DecoItemDTO> decoItems = decoTypes.stream()
-                .filter(deco -> deco.getPrice() > 0)
                 .map(deco -> new StoreResponse.DecoItemDTO(deco.getDecoTypeId(), deco.getDecoTypeName(), deco.getPrice()))
                 .collect(Collectors.toList());
-        Collections.shuffle(decoItems);
-        decoItems = decoItems.subList(0, Math.min(decoItems.size(), 3));
 
         List<FlowerType> flowerTypes = flowerTypeRepository.findAll();
         List<StoreResponse.FlowerItemDTO> flowerItems = flowerTypes.stream()

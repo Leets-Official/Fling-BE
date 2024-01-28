@@ -10,14 +10,14 @@ import com.fling.fllingbe.domain.user.dto.*;
 import com.fling.fllingbe.domain.user.exception.UserConflictException;
 import com.fling.fllingbe.domain.user.exception.UserNotFoundException;
 import com.fling.fllingbe.domain.user.repository.UserRepository;
+import com.fling.fllingbe.global.dataSetting.RandomDecoSetter;
 import com.fling.fllingbe.global.jwt.JwtProvider;
 import com.fling.fllingbe.global.jwt.presentation.JwtResponse;
 import com.nimbusds.jose.shaded.gson.JsonElement;
 import com.nimbusds.jose.shaded.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.UUID;
 
-
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -35,13 +35,13 @@ public class UserService {
 
     @Value("${is-using-refresh-token}")
     private boolean isUsingRefreshToken;
-
     private final UserRepository userRepository;
     private final CoinRepository coinRepository;
     private final FlowerItemService flowerItemService;
     private final DecoItemService decoItemService;
     private final CardItemService cardItemService;
     private final JwtProvider jwtProvider;
+    private final RandomDecoSetter randomDecoSetter;
 
     public UserResponse login(UserRequest request) throws Exception {
         String email = getEmail(request.getAccessToken());
@@ -79,7 +79,7 @@ public class UserService {
         flowerItemService.createDefaultFlowerItem(user);
         decoItemService.createDefaultDecoItem(user);
         cardItemService.createDefaultCardItem(user);
-
+        randomDecoSetter.setOneUser(user);
         JwtResponse tokenDto = new JwtResponse(
                 jwtProvider.createAccessToken(user.getEmail()),
                 jwtProvider.createRefreshToken(user.getEmail())
@@ -112,7 +112,7 @@ public class UserService {
         conn.setRequestProperty("Authorization", "Bearer " + token);
 
         int responseCode = conn.getResponseCode();
-        System.out.println("responseCode : " + responseCode);
+        log.info("responseCode : " + responseCode);
 
         //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -122,7 +122,7 @@ public class UserService {
         while ((line = br.readLine()) != null) {
             result += line;
         }
-        System.out.println("response body : " + result);
+        log.info("response body : " + result);
 
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(result);
@@ -133,9 +133,8 @@ public class UserService {
         if (hasEmail) {
             email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
         }
-
-        System.out.println("id : " + id);
-        System.out.println("email : " + email);
+        log.info("id : " + id);
+        log.info("email : " + email);
         br.close();
         return email;
     }
