@@ -5,6 +5,6 @@ import com.fling.fllingbe.global.error.exception.ServiceException;
 
 public class UserNotFoundException extends ServiceException {
     public UserNotFoundException() {
-        super(ErrorCode.USER_CONFLICT.getHttpStatus(),ErrorCode.USER_NOT_FOUND.getMessage());
+        super(ErrorCode.USER_NOT_FOUND.getHttpStatus(),ErrorCode.USER_NOT_FOUND.getMessage());
     }
 }

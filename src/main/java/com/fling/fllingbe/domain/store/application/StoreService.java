@@ -104,9 +104,7 @@ public class StoreService {
         cardItem.setOwned(true);
         cardItemRepository.save(cardItem);
     }
-
     public StoreResponse getStoreItems(String email) {
-
         List<DecoType> decoTypes = new ArrayList<>();
         for(int number = 0 ; number < 3 ; number++ ){
             String randomDecoTypeId = redisTemplate.opsForValue().get(email+"_"+number);
@@ -135,9 +133,5 @@ public class StoreService {
                 .collect(Collectors.toList());
 
         return new StoreResponse(decoItems, flowerItems, letterItems);
-    }
-
-    public void setRandom3Decos() {
-
     }
 }
