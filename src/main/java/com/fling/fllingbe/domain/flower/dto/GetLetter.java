@@ -12,4 +12,5 @@ public class GetLetter {
     private String letter;
     private String flowerType;
     private String cardType;
+    private String sender;
 }

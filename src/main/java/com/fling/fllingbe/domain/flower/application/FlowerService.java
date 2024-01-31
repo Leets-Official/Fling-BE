@@ -89,6 +89,7 @@ public class FlowerService {
                 .letter(flower.getLetter())
                 .flowerType(flower.getFlowerType().getFlowerName())
                 .cardType(flower.getCardType().getCardName())
+                .sender(flower.getSender().getNickname())
                 .build();
 
         return getLetter;

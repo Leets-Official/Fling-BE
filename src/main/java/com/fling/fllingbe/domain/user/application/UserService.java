@@ -257,4 +257,8 @@ public class UserService {
             throw new UserNotFoundException();
         userRepository.deleteByEmail(email);
     }
+
+    public String getNickname(UserIdRequest request) throws Exception{
+        return userRepository.findByUserId(request.getUserId()).orElseThrow(()-> new UserNotFoundException()).getNickname();
+    }
 }
