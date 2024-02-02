@@ -1,6 +1,5 @@
 package com.fling.fllingbe.domain.coin.domain;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.fling.fllingbe.domain.user.domain.User;
 import com.fling.fllingbe.global.shared.domain.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -24,4 +23,9 @@ public class Coin extends BaseTimeEntity {
 
     @Column
     private Integer coin;
+
+    @Builder.Default
+    @Column
+    private Boolean hasPickCoinToday = false;
+
 }
