@@ -17,7 +17,7 @@ public class DecoItemInfo {
     private boolean owned;
     public static DecoItemInfo fromEntity(DecoItem decoItem) {
         DecoItemInfo decoItemInfo = DecoItemInfo.builder()
-                .id(decoItem.getDecoItemId())
+                .id(decoItem.getDecoType().getDecoTypeId())
                 .type(decoItem.getDecoType().getDecoTypeName())
                 .owned(decoItem.isOwned())
                 .build();
