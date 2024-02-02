@@ -16,7 +16,7 @@ public class CoinResetScheduler {
         this.coinRepository = coinRepository;
     }
 
-    @Scheduled(cron = "00 17 01 * * ?")
+    @Scheduled(cron = "00 00 00 * * ?")
     public void resetHasPickCoinToday() {
         List<Coin> coins = coinRepository.findAll();
         for (Coin coin : coins) {
