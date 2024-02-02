@@ -73,6 +73,7 @@ public class UserService {
         Coin coin = Coin.builder()
                 .user(user)
                 .coin(1000)
+                .hasPickCoinToday(false)
                 .build();
         userRepository.save(user);
         coinRepository.save(coin);
@@ -172,6 +173,7 @@ public class UserService {
         Coin coin = Coin.builder()
                 .user(user)
                 .coin(1000)
+                .hasPickCoinToday(false)
                 .build();
         userRepository.save(user);
         coinRepository.save(coin);
