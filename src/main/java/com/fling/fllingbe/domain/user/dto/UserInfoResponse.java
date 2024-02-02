@@ -18,4 +18,5 @@ public class UserInfoResponse {
     private String dDay;
     private String description;
     private Integer coin;
+    private boolean isCoinAlreadyDrawn;
 }
