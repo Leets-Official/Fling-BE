@@ -206,6 +206,7 @@ public class UserService {
                 .dDay(user.getDDay())
                 .description(user.getDescription())
                 .coin(coin.getCoin())
+                .isCoinAlreadyDrawn(coin.getHasPickCoinToday())
                 .build();
         return userInfoResponse;
     }
@@ -222,6 +223,7 @@ public class UserService {
                 .dDay(user.getDDay())
                 .description(user.getDescription())
                 .coin(coin.getCoin())
+                .isCoinAlreadyDrawn(coin.getHasPickCoinToday())
                 .build();
         return userInfoResponse;
     }
