@@ -32,7 +32,7 @@ public class RandomDecoSetter{
         }
     }
     public void setOneUser(User user){
-        List<DecoItem> decoItemList = decoItemRepository.findAllByUserAndIsUsingAndDecoType_PriceGreaterThan(user, false, 0);
+        List<DecoItem> decoItemList = decoItemRepository.findAllByUserAndDecoType_PriceGreaterThan(user, 0);
         for(int number = 0; number < 3 ; number++){
             int listSize = decoItemList.size();
             int randomNumber = random.nextInt(listSize);
