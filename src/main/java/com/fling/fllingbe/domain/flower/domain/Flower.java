@@ -44,6 +44,6 @@ public class Flower extends BaseTimeEntity {
     @JoinColumn(name="bouquet_id")
     private Bouquet bouquetId;
 
-    @Column
+    @Column(length = 300)
     private String letter;
 }
