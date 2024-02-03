@@ -180,7 +180,7 @@ public class UserService {
         flowerItemService.createDefaultFlowerItem(user);
         decoItemService.createDefaultDecoItem(user);
         cardItemService.createDefaultCardItem(user);
-
+        randomDecoSetter.setOneUser(user);
         JwtResponse tokenDto = new JwtResponse(
                 jwtProvider.createAccessToken(user.getEmail()),
                 jwtProvider.createRefreshToken(user.getEmail())
