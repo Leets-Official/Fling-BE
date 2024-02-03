@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -27,14 +28,14 @@ public class ItemsService {
     public GetItemsResponse getItems(Authentication authentication) {
         User user = userRepository.findByEmail(authentication.getName()).orElseThrow(()-> new UserNotFoundException());
         List<FlowerItem> flowerItemList = flowerItemRepository.findAllByUser(user);
-        List<FlowerItemInfo> flowerItemInfoList = flowerItemList.stream().map(FlowerItemInfo::fromEntity).toList();
+        List<FlowerItemInfo> flowerItemInfoList = flowerItemList.stream().map(FlowerItemInfo::fromEntity).sorted(Comparator.comparing(FlowerItemInfo::getId)).toList();
 
         DecoType ignoreDecoType = decoTypeRepository.findByDecoTypeName("undefined").get();
         List<DecoItem> decoItemList = decoItemRepository.findAllByUserAndDecoTypeIsNot(user,ignoreDecoType);
-        List<DecoItemInfo> decoItemInfoList = decoItemList.stream().map(DecoItemInfo::fromEntity).toList();
+        List<DecoItemInfo> decoItemInfoList = decoItemList.stream().map(DecoItemInfo::fromEntity).sorted(Comparator.comparing(DecoItemInfo::getId)).toList();
 
         List<CardItem> cardItemList = cardItemRepository.findByUser(user);
-        List<CardItemInfo> cardItemInfoList = cardItemList.stream().map(CardItemInfo::fromEntity).toList();
+        List<CardItemInfo> cardItemInfoList = cardItemList.stream().map(CardItemInfo::fromEntity).sorted(Comparator.comparing(CardItemInfo::getId)).toList();
         return new GetItemsResponse(flowerItemInfoList,decoItemInfoList,cardItemInfoList);
     }
     public BouquetItemResponse getBouquetItemResponse() {
