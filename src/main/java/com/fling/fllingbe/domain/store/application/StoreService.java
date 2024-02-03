@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -118,18 +119,21 @@ public class StoreService {
         }
         List<StoreResponse.DecoItemDTO> decoItems = decoTypes.stream()
                 .map(deco -> new StoreResponse.DecoItemDTO(deco.getDecoTypeId(), deco.getDecoTypeName(), deco.getPrice()))
+                .sorted(Comparator.comparing(StoreResponse.DecoItemDTO::getItemId))
                 .collect(Collectors.toList());
 
         List<FlowerType> flowerTypes = flowerTypeRepository.findAll();
-        List<StoreResponse.FlowerItemDTO> flowerItems = flowerTypes.stream()
+        List<StoreResponse.FlowerItemDTO> flowerItems = flowerTypeRepository.findAll().stream()
                 .filter(flower -> flower.getPrice() > 0)
                 .map(flower -> new StoreResponse.FlowerItemDTO(flower.getFlowerTypeId(), flower.getFlowerName(), flower.getPrice()))
+                .sorted(Comparator.comparing(StoreResponse.FlowerItemDTO::getItemId))
                 .collect(Collectors.toList());
 
         List<CardType> cardTypes = cardTypeRepository.findAll();
-        List<StoreResponse.LetterItemDTO> letterItems = cardTypes.stream()
+        List<StoreResponse.LetterItemDTO> letterItems = cardTypeRepository.findAll().stream()
                 .filter(card -> card.getPrice() > 0)
                 .map(card -> new StoreResponse.LetterItemDTO(card.getCardTypeId(), card.getCardName(), card.getPrice()))
+                .sorted(Comparator.comparing(StoreResponse.LetterItemDTO::getItemId))
                 .collect(Collectors.toList());
 
         return new StoreResponse(decoItems, flowerItems, letterItems);
