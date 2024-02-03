@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -33,9 +34,17 @@ public class RandomDecoSetter{
     }
     public void setOneUser(User user){
         List<DecoItem> decoItemList = decoItemRepository.findAllByUserAndDecoType_PriceGreaterThan(user, 0);
+        List<Integer> randomList = new ArrayList<>();
         for(int number = 0; number < 3 ; number++){
             int listSize = decoItemList.size();
-            int randomNumber = random.nextInt(listSize);
+            int randomNumber = 0;
+            while(true){
+                randomNumber = random.nextInt(listSize);
+                if (!randomList.contains(randomNumber)){
+                    randomList.add(randomNumber);
+                    break;
+                }
+            }
             DecoItem decoItem = decoItemList.get(randomNumber);
             redisTemplate.opsForValue().set(
                     user.getEmail()+"_"+number,
