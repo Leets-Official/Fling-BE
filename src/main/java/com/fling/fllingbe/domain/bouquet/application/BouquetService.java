@@ -82,13 +82,18 @@ public class BouquetService {
         List<Bouquet> bouquets = bouquetRepository.findAllByUser(user);
         if (bouquets.size() != 0) {
             List<BouquetInfo> bouquetInfos = new ArrayList<>();
+            List<Long> bouquetIds = new ArrayList<>();
             BouquetDesign bouquetDesign = getBouquetDesign(bouquets.get(0));
             for (Bouquet bouquet : bouquets) {
-                List<Flower> flowers = flowerRepository.findAllByBouquetId(bouquet);
+                bouquetIds.add(bouquet.getBouquetId());
+            }
+            Collections.sort(bouquetIds);
+            for (Long bouquetId : bouquetIds) {
+                List<Flower> flowers = flowerRepository.findAllByBouquetId(bouquetRepository.findById(bouquetId).get());
                 List<FlowerInfo> flowerInfoList = flowers.stream()
                         .map(FlowerInfo::fromEntity)
                         .toList();
-                BouquetInfo bouquetInfo = new BouquetInfo(bouquet.getBouquetId(), flowerInfoList);
+                BouquetInfo bouquetInfo = new BouquetInfo(bouquetId, flowerInfoList);
                 bouquetInfos.add(bouquetInfo);
             }
             String description = user.getDescription();

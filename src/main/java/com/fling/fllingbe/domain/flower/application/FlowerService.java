@@ -23,6 +23,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,7 +52,13 @@ public class FlowerService {
                 bouquet = bouquetService.createNewBouquet(receiver);
             } else {
                 List<Bouquet> bouquets = bouquetRepository.findAllByUser(receiver);
-                bouquet = bouquets.get(bouquets.size() - 1);
+                List<Long> bouquetIds = new ArrayList<>();
+                for (Bouquet bouquet1 : bouquets) {
+                    bouquetIds.add(bouquet1.getBouquetId());
+                }
+                Collections.sort(bouquetIds);
+                Long bouquetId = bouquetIds.get(bouquetIds.size()-1);
+                bouquet = bouquetRepository.findById(bouquetId).get();
             }
 
             Flower flower = new Flower().builder()
