@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class FlingApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FlingApplication.class, fffff);
+        SpringApplication.run(FlingApplication.class, args);
     }
 
 }
