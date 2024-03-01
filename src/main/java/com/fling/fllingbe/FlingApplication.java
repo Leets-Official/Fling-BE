@@ -11,5 +11,4 @@ public class FlingApplication {
     public static void main(String[] args) {
         SpringApplication.run(FlingApplication.class, args);
     }
-
 }
